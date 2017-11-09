@@ -27,6 +27,7 @@ public class RetterPrincipal extends Game {
 	private InimigoComum sonic;
 	private Nave nave;
 	private ArmaLaser[] armaLaser;
+	private SquadOne esquadraoUm;
 
 	public RetterPrincipal() {
 		super("Retter", 1024, 768);
@@ -54,7 +55,7 @@ public class RetterPrincipal extends Game {
 		ground[1] = new Ground(20, 2000);
 		menu = new Menu();
 		creditos = new Creditos();
-		sonic = new InimigoComum(300);
+		sonic = new InimigoComum(300, 400, 600);
 		cutscenes01 = new Cutscene(Color.MAGENTA);
 		ranking = new Ranking();
 		selecaoDeNaves = new SelecaoNave();
@@ -63,6 +64,7 @@ public class RetterPrincipal extends Game {
 		nave = new Nave(3, 700);
 		armaLaser[0] = new ArmaLaser(600, 400);
 		armaLaser[1] = new ArmaLaser(400, 600);
+		esquadraoUm = new SquadOne();
 	}
 
 	@Override
@@ -201,10 +203,11 @@ public class RetterPrincipal extends Game {
 					}
 					if (e.getKeyCode() == KeyEvent.VK_Z) {
 						nave.atirar();
-
 					}
 					if (e.getKeyCode() == KeyEvent.VK_X) {
+						nave.setAtirandoCima(true);
 						nave.atirar();
+
 					}
 				} else if (jogo.isVisivel() == false && pause.isVisivel() && e.getKeyCode() == KeyEvent.VK_P) {
 					jogo.setVisivel(true);
@@ -241,11 +244,10 @@ public class RetterPrincipal extends Game {
 				}
 
 				if (e.getKeyCode() == KeyEvent.VK_Z) {
-					nave.setSpacePressed(false);
 					nave.setAtirandoLaser(false);
 				}
 				if (e.getKeyCode() == KeyEvent.VK_X) {
-					nave.setSpacePressed(false);
+					nave.setAtirandoCima(false);
 					nave.setAtirandoLaser(false);
 				}
 
@@ -274,10 +276,10 @@ public class RetterPrincipal extends Game {
 	public void objetosDoJogo() {
 		if (nave != null) {
 			if (armaLaser[0].isPegou() == false) {
-				armaLaser[0].pegar(nave, armaLaser[1]);
+				armaLaser[0].pegar(nave);
 			}
 			if (armaLaser[1].isPegou() == false) {
-				armaLaser[1].pegar(nave, armaLaser[0]);
+				armaLaser[1].pegar(nave);
 			}
 			nave.update();
 			if (armaLaser[0].isPegou() == true) {
@@ -288,6 +290,7 @@ public class RetterPrincipal extends Game {
 			}
 			desenharImagem(botao, Utils.getInstance().getWidth() / 2, Utils.getInstance().getHeight() / 2 + 200);
 			nave.draw(getGraphics2D());
+			destruirArmas();
 			armaLaser[0].draw(getGraphics2D());
 			armaLaser[1].draw(getGraphics2D());
 			nave.RectangleChao(ground[0]);
@@ -308,6 +311,27 @@ public class RetterPrincipal extends Game {
 				nave = null;
 				jogo.setVisivel(false);
 				ranking.setVisivel(true);
+			}
+		}
+	}
+
+	public void destruirArmas() {
+		if (armaLaser[1] != null) {
+			if (nave.getVariavelMunicaoLaser() <= 1 && armaLaser[1].isNaveCima() == false) {
+				armaLaser[1] = null;
+			}
+		} else if (armaLaser[0] != null) {
+			if (nave.getVariavelMunicaoLaser() <= 1 && armaLaser[0].isNaveCima() == false) {
+				armaLaser[0] = null;
+			}
+		}
+		if (armaLaser[1] != null) {
+			if (nave.getVariavelMunicaoLaser() <= 1 && armaLaser[1].isNaveCima() == true) {
+				armaLaser[1] = null;
+			}
+		} else if (armaLaser[0] != null) {
+			if (nave.getVariavelMunicaoLaser() <= 1 && armaLaser[0].isNaveCima() == true) {
+				armaLaser[0] = null;
 			}
 		}
 	}

@@ -2,8 +2,8 @@ package game;
 
 public abstract class SuperArma extends ObjetoGraficoMovelComAnimacao {
 	private boolean pegou;
-	private int municao;
 	private boolean controle;
+	private boolean naveCima;
 
 	public SuperArma(int posX, int posY, int width, int height, String fileName, int velX, int velY, int frameX,
 			int frameY, int cols, int rows) {
@@ -11,36 +11,31 @@ public abstract class SuperArma extends ObjetoGraficoMovelComAnimacao {
 
 	}
 
-	public void pegar(Nave nave, SuperArma arma) {
+	public void pegar(Nave nave) {
 		getRectangle();
 		nave.getRectangle();
 		if (getRectangle().intersects(nave.getRectangle())) {
-			if (nave.isArmaBaixo() == true) {
+			controle = true;
+			if (nave.isArmaBaixo() == true && controle == true) {
 				nave.setArmaCima(true);
+				naveCima = true;
 				pegou = true;
-		//		if (arma.pegou == true) {
-		//			nave.setArmaCima(false);
-		//			pegou = false;
-		//			arma.pegou=false;
-		//		} else {
-		//		}
-
 			} else if (nave.isArmaBaixo() == false) {
 				nave.setArmaBaixo(true);
 				pegou = true;
-
+				
 			}
 
 		}
 	}
 
 	public void update(Nave nave) {
-		if (nave.isArmaBaixo()) {
+		if (nave.isArmaBaixo() && naveCima == false) {
 			setPosX(nave.getPosX() + nave.getWidth() / 2);
 			setPosY(nave.getPosY() + 15);
-		} else if (nave.isArmaCima()) {
+		} else if (nave.isArmaCima() && naveCima == true) {
 			setPosX(nave.getPosX() + nave.getWidth() / 2);
-			setPosY(nave.getPosY() - 30);
+			setPosY(nave.getPosY() - 15);
 		}
 	}
 
@@ -52,19 +47,19 @@ public abstract class SuperArma extends ObjetoGraficoMovelComAnimacao {
 		this.pegou = pegou;
 	}
 
-	public int getMunicao() {
-		return municao;
-	}
-
-	public void setMunicao(int municao) {
-		this.municao = municao;
-	}
-
 	public boolean isControle() {
 		return controle;
 	}
 
 	public void setControle(boolean controle) {
 		this.controle = controle;
+	}
+
+	public boolean isNaveCima() {
+		return naveCima;
+	}
+
+	public void setNaveCima(boolean naveCima) {
+		this.naveCima = naveCima;
 	}
 }

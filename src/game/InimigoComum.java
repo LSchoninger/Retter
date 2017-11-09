@@ -1,11 +1,13 @@
 package game;
 
+import br.senai.sc.engine.Utils;
+
 public class InimigoComum extends SuperInimigo {
 	private int dano;
 	boolean destruido;
 
-	public InimigoComum(int hP) {
-		super(400, 640, 119, 112, "images/sonicDoMal.png", 15, 15, 0, 0, 7, 3, hP);
+	public InimigoComum(int hP,int posX,int posY) {
+		super(posX,posY, 119, 112, "images/sonicDoMal.png", 15, 15, 0, 0, 7, 3, hP);
 
 	}
 
@@ -20,7 +22,8 @@ public class InimigoComum extends SuperInimigo {
 		} else {
 			destruido = false;
 		}
-
+		if(!(getPosX()<=Utils.getInstance().getWidth()))
+		setPosX(getPosX()-getVelX());
 	}
 
 	public boolean isDestruido() {
