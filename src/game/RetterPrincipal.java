@@ -64,7 +64,8 @@ public class RetterPrincipal extends Game {
 		nave = new Nave(3, 700);
 		armaLaser[0] = new ArmaLaser(600, 400);
 		armaLaser[1] = new ArmaLaser(400, 600);
-		esquadraoUm = new SquadOne();
+		esquadraoUm = new SquadOne(300);
+		esquadraoUm.squadOne();
 	}
 
 	@Override
@@ -271,37 +272,51 @@ public class RetterPrincipal extends Game {
 		ground[1].draw(getGraphics2D());
 		ground[1].update();
 		ground[1].fimDaTela();
+		esquadraoUm.draw(getGraphics2D(), 300, 400);
 	}
 
 	public void objetosDoJogo() {
 		if (nave != null) {
-			if (armaLaser[0].isPegou() == false) {
-				armaLaser[0].pegar(nave);
+			if (armaLaser[0] != null) {
+				if (armaLaser[0].isPegou() == false) {
+					armaLaser[0].pegar(nave);
+
+				}
+				if (armaLaser[0].isPegou() == true) {
+					armaLaser[0].update(nave);
+				}
+
 			}
-			if (armaLaser[1].isPegou() == false) {
-				armaLaser[1].pegar(nave);
+			if (armaLaser[1] != null) {
+				if (armaLaser[1].isPegou() == false) {
+					armaLaser[1].pegar(nave);
+				}
+				if (armaLaser[1].isPegou() == true) {
+					armaLaser[1].update(nave);
+				}
+
 			}
-			nave.update();
-			if (armaLaser[0].isPegou() == true) {
-				armaLaser[0].update(nave);
-			}
-			if (armaLaser[1].isPegou() == true) {
-				armaLaser[1].update(nave);
-			}
+			esquadraoUm.draw(getGraphics2D(), 400, 400);
+			esquadraoUm.update();
+			esquadraoUm.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser());
 			desenharImagem(botao, Utils.getInstance().getWidth() / 2, Utils.getInstance().getHeight() / 2 + 200);
 			nave.draw(getGraphics2D());
-			destruirArmas();
-			armaLaser[0].draw(getGraphics2D());
-			armaLaser[1].draw(getGraphics2D());
+			nave.update();
+			if (armaLaser[0] != null) {
+				armaLaser[0].draw(getGraphics2D());
+			}
+			if (armaLaser[1] != null) {
+				armaLaser[1].draw(getGraphics2D());
+			}
 			nave.RectangleChao(ground[0]);
 			nave.RectangleChao(ground[1]);
 			if (sonic != null) {
 				sonic.draw(getGraphics2D());
 				sonic.update();
-				sonic.RectangleNave(nave);
-				sonic.RectangleTiro(nave.getTiros());
+				sonic.rectangleNave(nave);
+				sonic.rectangleTiro(nave.getTiros());
 				if (nave.getTiroArmaLaser() != null) {
-					sonic.RectangleArmaLaser(nave.getTiroArmaLaser());
+					sonic.rectangleArmaLaser(nave.getTiroArmaLaser());
 				}
 				if (sonic.destruido) {
 					sonic = null;
@@ -315,7 +330,7 @@ public class RetterPrincipal extends Game {
 		}
 	}
 
-	public void destruirArmas() {
+	public void desruirArmas() {
 		if (armaLaser[1] != null) {
 			if (nave.getVariavelMunicaoLaser() <= 1 && armaLaser[1].isNaveCima() == false) {
 				armaLaser[1] = null;
@@ -329,10 +344,17 @@ public class RetterPrincipal extends Game {
 			if (nave.getVariavelMunicaoLaser() <= 1 && armaLaser[1].isNaveCima() == true) {
 				armaLaser[1] = null;
 			}
-		} else if (armaLaser[0] != null) {
+		}
+		if (armaLaser[0] != null) {
 			if (nave.getVariavelMunicaoLaser() <= 1 && armaLaser[0].isNaveCima() == true) {
 				armaLaser[0] = null;
 			}
+		}
+	}
+
+	public void leva1() {
+		for (int i = 0; i <= 1; i++) {
+			esquadraoUm.squadOne();
 		}
 	}
 

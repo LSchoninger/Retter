@@ -22,7 +22,7 @@ public abstract class SuperInimigo extends ObjetoGraficoMovelComAnimacao {
 	}
 
 	// TODO COLISÃO NAVE, TIRO NAVE
-	public void RectangleNave(Nave nave) {
+	public void rectangleNave(Nave nave) {
 		getRectangle();
 		nave.getRectangle();
 		if (getRectangle().intersects(nave.getRectangle())) {
@@ -32,25 +32,28 @@ public abstract class SuperInimigo extends ObjetoGraficoMovelComAnimacao {
 		}
 	}
 
-	public void RectangleTiro(SuperTiro[] tiros) {
+	public boolean rectangleTiro(SuperTiro[] tiros) {
 		getRectangle();
 		for (int i = 0; i < tiros.length; i++) {
 			if (tiros[i] != null) {
 				tiros[i].getRectangle();
 				if (getRectangle().intersects(tiros[i].getRectangle())) {
 					setHp(getHp() - tiros[i].getDano());
-					tiros[i] = null;
-				}
+					System.out.println(getHp() + "todentro");
+					tiros[i] = null;			
+						return true;			
+				} 
 			}
 		}
+		return false;
 	}
 
-	public void RectangleArmaLaser(TiroArmaLaser tiro) {
+	public void rectangleArmaLaser(TiroArmaLaser tiro) {
 		getRectangle();
 		tiro.getRectangle();
 		if (getRectangle().intersects(tiro.getRectangle())) {
 			setHp(getHp() - tiro.getDano());
-			
+			System.out.println(getHp() + "todentro");
 		}
 	}
 

@@ -151,7 +151,9 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 			}
 		}
 		if (atirandoLaser) {
-			atirandoArmaLaser();
+			tiroArmaLaser.update(this);
+		}else {
+			tiroArmaLaser = null;
 		}
 		if (gethP() <= 0) {
 			setPosX(50);
