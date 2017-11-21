@@ -24,6 +24,9 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 	private int vidas;
 	private TiroArmaLaser tiroArmaLaser;
 	private TiroPadrao[] tiros;
+	private int danoTiroPadrao;
+	private ArmaLaser armaLaserBaixo;
+	private ArmaLaser armaLaserCima;
 
 	public Nave(int vidas, int hP) {
 		super(50, 500, 106, 33, "images/TesteSheet.png", 17, 17, 0, 0, 4, 3);
@@ -32,6 +35,7 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 		this.tiros = new TiroPadrao[1000];
 		variavelMunicaoLaser = 7;
 		variavelMunicaoCimaLaser = 7;
+		this.danoTiroPadrao = 100;
 	}
 
 	public boolean isUpPressed() {
@@ -152,7 +156,7 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 		}
 		if (atirandoLaser) {
 			tiroArmaLaser.update(this);
-		}else {
+		} else {
 			tiroArmaLaser = null;
 		}
 		if (gethP() <= 0) {
@@ -320,11 +324,35 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 		if (!armaCima || !armaBaixo) {
 			for (int i = 0; i < tiros.length; i++) {
 				if (tiros[i] == null) {
-					TiroPadrao t = new TiroPadrao(getPosX() + getWidth(), this.getPosY() + 12, 100);
+					TiroPadrao t = new TiroPadrao(getPosX() + getWidth(), this.getPosY() + 12, danoTiroPadrao);
 					tiros[i] = t;
 					break;
 				}
 			}
 		}
+	}
+
+	public int getDanoTiroPadrao() {
+		return danoTiroPadrao;
+	}
+
+	public void setDanoTiroPadrao(int danoTiroPadrao) {
+		this.danoTiroPadrao = danoTiroPadrao;
+	}
+
+	public ArmaLaser getArmaLaserBaixo() {
+		return armaLaserBaixo;
+	}
+
+	public ArmaLaser getArmaLaserCima() {
+		return armaLaserCima;
+	}
+
+	public void setArmaLaserBaixo(ArmaLaser armaLaserBaixo) {
+		this.armaLaserBaixo = armaLaserBaixo;
+	}
+
+	public void setArmaLaserCima(ArmaLaser armaLaserCima) {
+		this.armaLaserCima = armaLaserCima;
 	}
 }

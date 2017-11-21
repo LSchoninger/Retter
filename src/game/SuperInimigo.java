@@ -39,22 +39,22 @@ public abstract class SuperInimigo extends ObjetoGraficoMovelComAnimacao {
 				tiros[i].getRectangle();
 				if (getRectangle().intersects(tiros[i].getRectangle())) {
 					setHp(getHp() - tiros[i].getDano());
-					System.out.println(getHp() + "todentro");
-					tiros[i] = null;			
-						return true;			
-				} 
+					tiros[i] = null;
+					return true;
+				}
 			}
 		}
 		return false;
 	}
 
-	public void rectangleArmaLaser(TiroArmaLaser tiro) {
+	public boolean rectangleArmaLaser(TiroArmaLaser tiro) {
 		getRectangle();
 		tiro.getRectangle();
 		if (getRectangle().intersects(tiro.getRectangle())) {
 			setHp(getHp() - tiro.getDano());
-			System.out.println(getHp() + "todentro");
+			return true;
 		}
+		return false;
 	}
 
 }

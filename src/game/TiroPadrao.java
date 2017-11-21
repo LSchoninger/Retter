@@ -2,12 +2,18 @@ package game;
 
 public class TiroPadrao extends SuperTiro {
 
-	public TiroPadrao(int posX, int posY,int dano) {
-		super(posX, posY, 3, 6, "images/TiroPadrao.png", 40, 40, dano,100);
+	public TiroPadrao(int posX, int posY, int dano) {
+		super(posX, posY, 3, 6, "images/TiroPadrao.png", 40, 40, dano, 100);
 
 	}
 
 	public void update() {
 		setPosX(getPosX() + getVelX());
+	}
+
+	@Override
+	public int getDano() {
+		// TODO Auto-generated method stub
+		return super.getDano();
 	}
 }
