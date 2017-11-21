@@ -25,8 +25,8 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 	private TiroArmaLaser tiroArmaLaser;
 	private TiroPadrao[] tiros;
 	private int danoTiroPadrao;
-	private ArmaLaser armaLaserBaixo;
-	private ArmaLaser armaLaserCima;
+	private SuperArma[] armas;
+	private testedearmas teste;
 
 	public Nave(int vidas, int hP) {
 		super(50, 500, 106, 33, "images/TesteSheet.png", 17, 17, 0, 0, 4, 3);
@@ -36,62 +36,13 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 		variavelMunicaoLaser = 7;
 		variavelMunicaoCimaLaser = 7;
 		this.danoTiroPadrao = 100;
-	}
+		armas = new SuperArma[8];
+		armas[0] = new ArmaLaser(600, 400);
+		armas[1] = new ArmaLaser(400, 600);
+		armas[2] = new ArmaCanhao(50, 50);
+		armas[3] = new ArmaCanhao(100, 100);
+		// armas[6] e [7] sao baixo e cima;
 
-	public boolean isUpPressed() {
-		return upPressed;
-	}
-
-	public void setUpPressed(boolean upPressed) {
-		this.upPressed = upPressed;
-	}
-
-	public boolean isDownPressed() {
-		return downPressed;
-	}
-
-	public void setDownPressed(boolean downPressed) {
-		this.downPressed = downPressed;
-	}
-
-	public boolean isLeftPressed() {
-		return leftPressed;
-	}
-
-	public void setLeftPressed(boolean leftPressed) {
-		this.leftPressed = leftPressed;
-	}
-
-	public boolean isRightPressed() {
-		return rightPressed;
-	}
-
-	public void setRightPressed(boolean rightPressed) {
-		this.rightPressed = rightPressed;
-	}
-
-	public int gethP() {
-		return hP;
-	}
-
-	public void sethP(int hP) {
-		this.hP = hP;
-	}
-
-	public int getVidas() {
-		return vidas;
-	}
-
-	public void setVidas(int vidas) {
-		this.vidas = vidas;
-	}
-
-	public boolean isDestruido() {
-		return destruido;
-	}
-
-	public void setDestruido(boolean destruido) {
-		this.destruido = destruido;
 	}
 
 	public void update() {
@@ -154,6 +105,7 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 				setPosY(Utils.getInstance().getHeight() - getHeight());
 			}
 		}
+		pegandoArmas();
 		if (atirandoLaser) {
 			tiroArmaLaser.update(this);
 		} else {
@@ -174,7 +126,7 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 	}
 
 	public void atirar() {
-		armaLaser();
+		armaLaser(armas[6], armas[7]);
 		tiroPadrao();
 	}
 
@@ -192,8 +144,201 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 			}
 		}
 		super.draw(g);
+		if (armas[0] != null) {
+			armas[0].draw(g);
+		}
+		if (armas[1] != null) {
+			armas[1].draw(g);
+		}
+		if (armas[2] != null) {
+			armas[2].draw(g);
+		}
+		if (armas[3] != null) {
+			armas[3].draw(g);
+		}
 	}
 	// terimna aqui
+
+	public void RectangleChao(Ground ground) {
+		getRectangle();
+		ground.getRectangle();
+		if (getRectangle().intersects(ground.getRectangle())) {
+			sethP(gethP() - 50);
+			setPosY(getPosY() - 75);
+		}
+	}
+
+	public void atirandoArmaLaser() {
+		if (tiroArmaLaser != null) {
+			tiroArmaLaser.update(this);
+			if (armaBaixo == true) {
+				if (tiroArmaLaser.fimDeMunicao() == true) {
+					fimDaMunicao = true;
+					tiroArmaLaser = null;
+				}
+			}
+			if (armaCima == true && variavelMunicaoCimaLaser <= 0) {
+				if (tiroArmaLaser != null) {
+					if (tiroArmaLaser.fimDeMunicao() == true) {
+						fimDaMunicaoCima = true;
+						tiroArmaLaser = null;
+					}
+				}
+			}
+		} else {
+			tiroArmaLaser = null;
+		}
+	}
+
+	public void armaLaser(SuperArma armaDeBaixo, SuperArma armaDeCima) {
+
+		if (armaDeBaixo != null && armaDeBaixo.getModeloDaArma() == 1 && armaBaixo && atirandoCima == false
+				&& fimDaMunicao == false) {
+			tiroArmaLaser = new TiroArmaLaser(variavelMunicaoLaser);
+			atirandoLaser = true;
+			variavelMunicaoLaser -= 1;
+		} else if (armaDeCima != null && armaDeCima.getModeloDaArma() == 1 && armaCima && atirandoCima == true
+				&& fimDaMunicaoCima == false) {
+			tiroArmaLaser = new TiroArmaLaser(variavelMunicaoCimaLaser);
+			atirandoLaser = true;
+			variavelMunicaoCimaLaser -= 1;
+
+		}
+
+	}
+
+	public void tiroPadrao() {
+		if (!armaCima || !armaBaixo) {
+			for (int i = 0; i < tiros.length; i++) {
+				if (tiros[i] == null) {
+					TiroPadrao t = new TiroPadrao(getPosX() + getWidth(), this.getPosY() + 12, danoTiroPadrao);
+					tiros[i] = t;
+					break;
+				}
+			}
+		}
+	}
+
+	public void pegandoArmas() {
+		if (armas[0] != null) {
+			if (armas[0].isPegou() == false) {
+				armas[0].pegar(this);
+			}
+			if (armas[0].isPegou() == true) {
+				armas[0].update(this);
+				if (armas[0].isNaveCima() == false) {
+					armas[6] = armas[0];
+				} else if (armas[0].isNaveCima() == true) {
+					armas[7] = armas[0];
+				}
+			}
+
+		}
+		if (armas[1] != null) {
+			if (armas[1].isPegou() == false) {
+				armas[1].pegar(this);
+			}
+			if (armas[1].isPegou() == true) {
+				armas[1].update(this);
+				if (armas[1].isNaveCima() == false) {
+					armas[6] = armas[1];
+				} else if (armas[1].isNaveCima() == true) {
+					armas[7] = armas[1];
+				}
+			}
+
+		}
+		if (armas[2] != null) {
+			if (armas[2].isPegou() == false) {
+				armas[2].pegar(this);
+			}
+			if (armas[2].isPegou() == true) {
+				armas[2].update(this);
+				if (armas[2].isNaveCima() == false) {
+					armas[6] = armas[2];
+				} else if (armas[2].isNaveCima() == true) {
+					armas[7] = armas[2];
+				}
+			}
+		}
+		if (armas[3] != null) {
+			if (armas[3].isPegou() == false) {
+				armas[3].pegar(this);
+			}
+			if (armas[3].isPegou() == true) {
+				armas[3].update(this);
+				if (armas[3].isNaveCima() == false) {
+					armas[6] = armas[3];
+				} else if (armas[3].isNaveCima() == true) {
+					armas[7] = armas[3];
+				}
+			}
+		}
+	}
+
+	public int getDanoTiroPadrao() {
+		return danoTiroPadrao;
+	}
+
+	public void setDanoTiroPadrao(int danoTiroPadrao) {
+		this.danoTiroPadrao = danoTiroPadrao;
+	}
+
+	public boolean isUpPressed() {
+		return upPressed;
+	}
+
+	public void setUpPressed(boolean upPressed) {
+		this.upPressed = upPressed;
+	}
+
+	public boolean isDownPressed() {
+		return downPressed;
+	}
+
+	public void setDownPressed(boolean downPressed) {
+		this.downPressed = downPressed;
+	}
+
+	public boolean isLeftPressed() {
+		return leftPressed;
+	}
+
+	public void setLeftPressed(boolean leftPressed) {
+		this.leftPressed = leftPressed;
+	}
+
+	public boolean isRightPressed() {
+		return rightPressed;
+	}
+
+	public void setRightPressed(boolean rightPressed) {
+		this.rightPressed = rightPressed;
+	}
+
+	public int gethP() {
+		return hP;
+	}
+
+	public void sethP(int hP) {
+		this.hP = hP;
+	}
+
+	public int getVidas() {
+		return vidas;
+	}
+
+	public void setVidas(int vidas) {
+		this.vidas = vidas;
+	}
+
+	public boolean isDestruido() {
+		return destruido;
+	}
+
+	public void setDestruido(boolean destruido) {
+		this.destruido = destruido;
+	}
 
 	public TiroPadrao[] getTiros() {
 
@@ -260,15 +405,6 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 		this.atirandoLaser = atirandoLaser;
 	}
 
-	public void RectangleChao(Ground ground) {
-		getRectangle();
-		ground.getRectangle();
-		if (getRectangle().intersects(ground.getRectangle())) {
-			sethP(gethP() - 50);
-			setPosY(getPosY() - 75);
-		}
-	}
-
 	public int getVariavelMunicaoLaser() {
 		return variavelMunicaoLaser;
 	}
@@ -285,74 +421,16 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 		this.variavelMunicaoCimaLaser = variavelMunicaoCimaLaser;
 	}
 
-	public void atirandoArmaLaser() {
-		if (tiroArmaLaser != null) {
-			tiroArmaLaser.update(this);
-			if (armaBaixo == true) {
-				if (tiroArmaLaser.fimDeMunicao() == true) {
-					fimDaMunicao = true;
-					tiroArmaLaser = null;
-				}
-			}
-			if (armaCima == true && variavelMunicaoCimaLaser <= 0) {
-				if (tiroArmaLaser != null) {
-					if (tiroArmaLaser.fimDeMunicao() == true) {
-						fimDaMunicaoCima = true;
-						tiroArmaLaser = null;
-					}
-				}
-			}
-		} else {
-			tiroArmaLaser = null;
-		}
+	public testedearmas getTeste() {
+		return teste;
 	}
 
-	public void armaLaser() {
-		if (armaBaixo && atirandoCima == false && fimDaMunicao == false) {
-			tiroArmaLaser = new TiroArmaLaser(variavelMunicaoLaser);
-			atirandoLaser = true;
-			variavelMunicaoLaser -= 1;
-		} else if (armaCima && atirandoCima == true && fimDaMunicaoCima == false) {
-			tiroArmaLaser = new TiroArmaLaser(variavelMunicaoCimaLaser);
-			atirandoLaser = true;
-			variavelMunicaoCimaLaser -= 1;
-
-		}
+	public void setTeste(testedearmas teste) {
+		this.teste = teste;
 	}
 
-	public void tiroPadrao() {
-		if (!armaCima || !armaBaixo) {
-			for (int i = 0; i < tiros.length; i++) {
-				if (tiros[i] == null) {
-					TiroPadrao t = new TiroPadrao(getPosX() + getWidth(), this.getPosY() + 12, danoTiroPadrao);
-					tiros[i] = t;
-					break;
-				}
-			}
-		}
+	public SuperArma[] getArmas() {
+		return armas;
 	}
 
-	public int getDanoTiroPadrao() {
-		return danoTiroPadrao;
-	}
-
-	public void setDanoTiroPadrao(int danoTiroPadrao) {
-		this.danoTiroPadrao = danoTiroPadrao;
-	}
-
-	public ArmaLaser getArmaLaserBaixo() {
-		return armaLaserBaixo;
-	}
-
-	public ArmaLaser getArmaLaserCima() {
-		return armaLaserCima;
-	}
-
-	public void setArmaLaserBaixo(ArmaLaser armaLaserBaixo) {
-		this.armaLaserBaixo = armaLaserBaixo;
-	}
-
-	public void setArmaLaserCima(ArmaLaser armaLaserCima) {
-		this.armaLaserCima = armaLaserCima;
-	}
 }

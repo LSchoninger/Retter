@@ -25,10 +25,9 @@ public class RetterPrincipal extends Game {
 	private TelaEstatica ranking;
 	private TelaEstatica jogo;
 	private Nave nave;
-	private ArmaCanhao[] armaCanhao;
-	private ArmaLaser[] armaLaser;
 	private SquadOne esquadraoUm;
 	private SquadTwo esquadraoDois;
+	private SuperArma[] armas;
 
 	public RetterPrincipal() {
 		super("Retter", 1024, 768);
@@ -47,8 +46,7 @@ public class RetterPrincipal extends Game {
 	public void init() {
 		botao = carregarImagem("images/Proximo.png");
 		pause = new Pause(Color.BLACK, false);
-		armaLaser = new ArmaLaser[2];
-		armaCanhao = new ArmaCanhao[2];
+
 		backGround = new BackGround[2];
 		backGround[1] = new BackGround(0);
 		backGround[0] = new BackGround(1024);
@@ -62,10 +60,6 @@ public class RetterPrincipal extends Game {
 		selecaoDeNaves = new SelecaoNave();
 		gameOver = new GameOver();
 		jogo = new Jogo();
-		armaLaser[0] = new ArmaLaser(600, 400);
-		armaLaser[1] = new ArmaLaser(400, 600);
-		armaCanhao[0] = new ArmaCanhao(50, 50);
-		armaCanhao[1] = new ArmaCanhao(100, 100);
 		nave = new Nave(3, 700);
 		esquadraoUm = new SquadOne(300);
 		esquadraoUm.squadOne();
@@ -287,41 +281,7 @@ public class RetterPrincipal extends Game {
 
 	public void objetosDoJogo() {
 		if (nave != null) {
-			if (armaLaser[0] != null) {
-				if (armaLaser[0].isPegou() == false) {
-					armaLaser[0].pegar(nave);
-                    
-				}
-				if (armaLaser[0].isPegou() == true) {
-					armaLaser[0].update(nave);
-				}
 
-			}
-			if (armaLaser[1] != null) {
-				if (armaLaser[1].isPegou() == false) {
-					armaLaser[1].pegar(nave);
-				}
-				if (armaLaser[1].isPegou() == true) {
-					armaLaser[1].update(nave);
-				}
-
-			}
-			if (armaCanhao[0] != null) {
-				if (armaCanhao[0].isPegou() == false) {
-					armaCanhao[0].pegar(nave);
-				}
-				if (armaCanhao[0].isPegou() == true) {
-					armaCanhao[0].update(nave);
-				}
-			}
-			if (armaCanhao[1] != null) {
-				if (armaCanhao[1].isPegou() == false) {
-					armaCanhao[1].pegar(nave);
-				}
-				if (armaCanhao[1].isPegou() == true) {
-					armaCanhao[1].update(nave);
-				}
-			}
 			if (esquadraoUm != null) {
 				esquadraoUm.draw(getGraphics2D(), 400, 400);
 				esquadraoUm.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser());
@@ -339,18 +299,7 @@ public class RetterPrincipal extends Game {
 			nave.draw(getGraphics2D());
 			nave.update();
 			// TODO tentar corrigir bug de processamento de tiro da arma.
-			if (armaLaser[0] != null) {
-				armaLaser[0].draw(getGraphics2D());
-			}
-			if (armaLaser[1] != null) {
-				armaLaser[1].draw(getGraphics2D());
-			}
-			if (armaCanhao[0] != null) {
-				armaCanhao[0].draw(getGraphics2D());
-			}
-			if (armaCanhao[1] != null) {
-				armaCanhao[1].draw(getGraphics2D());
-			}
+
 			nave.RectangleChao(ground[0]);
 			nave.RectangleChao(ground[1]);
 			if (nave.isDestruido() == true) {
@@ -361,26 +310,30 @@ public class RetterPrincipal extends Game {
 		}
 	}
 
-	public void desruirArmas() {
-		if (armaLaser[1] != null) {
-			if (nave.getVariavelMunicaoLaser() <= 1 && armaLaser[1].isNaveCima() == false) {
-				armaLaser[1] = null;
-			}
-		} else if (armaLaser[0] != null) {
-			if (nave.getVariavelMunicaoLaser() <= 1 && armaLaser[0].isNaveCima() == false) {
-				armaLaser[0] = null;
-			}
-		}
-		if (armaLaser[1] != null) {
-			if (nave.getVariavelMunicaoLaser() <= 1 && armaLaser[1].isNaveCima() == true) {
-				armaLaser[1] = null;
-			}
-		}
-		if (armaLaser[0] != null) {
-			if (nave.getVariavelMunicaoLaser() <= 1 && armaLaser[0].isNaveCima() == true) {
-				armaLaser[0] = null;
-			}
-		}
-	}
+	// public void desruirArmas() {
+	// if (armaLaser[1] != null) {
+	// if (nave.getVariavelMunicaoLaser() <= 1 && armaLaser[1].isNaveCima() ==
+	// false) {
+	// armaLaser[1] = null;
+	// }
+	// } else if (armaLaser[0] != null) {
+	// if (nave.getVariavelMunicaoLaser() <= 1 && armaLaser[0].isNaveCima() ==
+	// false) {
+	// armaLaser[0] = null;
+	// }
+	// }
+	// if (armaLaser[1] != null) {
+	// if (nave.getVariavelMunicaoLaser() <= 1 && armaLaser[1].isNaveCima() ==
+	// true) {
+	// armaLaser[1] = null;
+	// }
+	// }
+	// if (armaLaser[0] != null) {
+	// if (nave.getVariavelMunicaoLaser() <= 1 && armaLaser[0].isNaveCima() ==
+	// true) {
+	// armaLaser[0] = null;
+	// }
+	// }
+	// }
 
 }
