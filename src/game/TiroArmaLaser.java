@@ -3,7 +3,7 @@ package game;
 public class TiroArmaLaser extends SuperTiro {
 
 	public TiroArmaLaser(int municao) {
-		super(0, 0, 800, 4, "images/TiroArmaLaser.png", 0, 0, 700, municao);
+		super(-6, -6, 800, 4, "images/TiroArmaLaser.png", 0, 0, 50, municao);
 	}
 
 	public void update(Nave nave) {
@@ -11,12 +11,10 @@ public class TiroArmaLaser extends SuperTiro {
 			setPosX(nave.getPosX() + (nave.getWidth() / 2) + 40);
 			setPosY(nave.getPosY() + 22);
 			//setMunicao(getMunicao() - 1);
-			System.out.println("municao= " + nave.getVariavelMunicaoLaser());
 		} else if (nave.isArmaCima() && nave.isAtirandoCima() == true) {
 			setPosX(nave.getPosX() + (nave.getWidth() / 2) + 40);
 			setPosY(nave.getPosY() - 8);
 			//setMunicao(getMunicao() - 1);
-			System.out.println("municao= " + nave.getVariavelMunicaoCimaLaser());
 		}
 	}
 

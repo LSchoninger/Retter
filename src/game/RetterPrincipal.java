@@ -27,7 +27,7 @@ public class RetterPrincipal extends Game {
 	private Nave nave;
 	private SquadOne esquadraoUm;
 	private SquadTwo esquadraoDois;
-	private SuperArma[] armas;
+	private MiddleGround[] groundDoMeio;
 
 	public RetterPrincipal() {
 		super("Retter", 1024, 768);
@@ -48,11 +48,14 @@ public class RetterPrincipal extends Game {
 		pause = new Pause(Color.BLACK, false);
 
 		backGround = new BackGround[2];
+		groundDoMeio=new MiddleGround[2];
 		backGround[1] = new BackGround(0);
 		backGround[0] = new BackGround(1024);
 		ground = new Ground[2];
 		ground[0] = new Ground(20, 0);
 		ground[1] = new Ground(20, 2000);
+		groundDoMeio[0]=new MiddleGround(0);
+		groundDoMeio[1]=new MiddleGround(768);
 		menu = new Menu();
 		creditos = new Creditos();
 		cutscenes01 = new Cutscene(Color.MAGENTA);
@@ -65,6 +68,7 @@ public class RetterPrincipal extends Game {
 		esquadraoUm.squadOne();
 		esquadraoDois = new SquadTwo(500);
 		esquadraoDois.squadTwo();
+		
 	}
 
 	@Override
@@ -245,10 +249,12 @@ public class RetterPrincipal extends Game {
 
 				if (e.getKeyCode() == KeyEvent.VK_Z) {
 					nave.setAtirandoLaser(false);
+			
 				}
 				if (e.getKeyCode() == KeyEvent.VK_X) {
 					nave.setAtirandoCima(false);
 					nave.setAtirandoLaser(false);
+
 				}
 
 				super.keyReleased(e);
@@ -265,6 +271,12 @@ public class RetterPrincipal extends Game {
 		backGround[1].draw(getGraphics2D());
 		backGround[0].fimDaTela();
 		backGround[1].fimDaTela();
+		groundDoMeio[0].update();
+		groundDoMeio[0].fimDaTela();
+		groundDoMeio[0].draw(getGraphics2D());
+		groundDoMeio[1].update();
+		groundDoMeio[1].fimDaTela();
+		groundDoMeio[1].draw(getGraphics2D());
 		ground[0].draw(getGraphics2D());
 		ground[0].update();
 		ground[0].fimDaTela();

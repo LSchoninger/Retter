@@ -13,6 +13,7 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 	private boolean rightPressed;
 	private boolean destruido;
 	private boolean armaCima;
+	private boolean atirandoCanhao;
 	private boolean atirandoLaser;
 	private boolean armaBaixo;
 	private boolean atirandoCima;
@@ -27,12 +28,14 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 	private int danoTiroPadrao;
 	private SuperArma[] armas;
 	private testedearmas teste;
+	private TiroCanhao[] tiroCanhao;
 
 	public Nave(int vidas, int hP) {
 		super(50, 500, 106, 33, "images/TesteSheet.png", 17, 17, 0, 0, 4, 3);
 		this.vidas = vidas;
 		this.hP = hP;
 		this.tiros = new TiroPadrao[1000];
+		tiroCanhao = new TiroCanhao[1000];
 		variavelMunicaoLaser = 7;
 		variavelMunicaoCimaLaser = 7;
 		this.danoTiroPadrao = 100;
@@ -111,6 +114,14 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 		} else {
 			tiroArmaLaser = null;
 		}
+		if (atirandoCanhao) {
+			for (int i = 0; i < tiroCanhao.length; i++) {
+				if (tiroCanhao[i] != null) {
+					tiroCanhao[i].update(this);
+				}
+			}
+
+		} 
 		if (gethP() <= 0) {
 			setPosX(50);
 			setPosY(500);
@@ -127,6 +138,7 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 
 	public void atirar() {
 		armaLaser(armas[6], armas[7]);
+		armaCanhao(armas[6], armas[7]);
 		tiroPadrao();
 	}
 
@@ -136,7 +148,10 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 			tiroArmaLaser.draw(g);
 		}
 		for (int i = 0; i < tiros.length; i++) {
-
+			if (tiroCanhao[i] != null) {
+				tiroCanhao[i].draw(g);
+				tiroCanhao[i].update(this);
+			}
 			if (tiros[i] != null) {
 				tiros[i].draw(g);
 				tiros[i].update();
@@ -155,6 +170,12 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 		}
 		if (armas[3] != null) {
 			armas[3].draw(g);
+		}
+		if (armas[6] != null) {
+			armas[6].draw(g);
+		}
+		if (armas[7] != null) {
+			armas[7].draw(g);
 		}
 	}
 	// terimna aqui
@@ -192,19 +213,41 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 
 	public void armaLaser(SuperArma armaDeBaixo, SuperArma armaDeCima) {
 
-		if (armaDeBaixo != null && armaDeBaixo.getModeloDaArma() == 1 && armaBaixo && atirandoCima == false
-				&& fimDaMunicao == false) {
+		if (armas[6] != null && armaDeBaixo != null && armaDeBaixo.getModeloDaArma() == 1 && armaBaixo
+				&& atirandoCima == false && fimDaMunicao == false) {
 			tiroArmaLaser = new TiroArmaLaser(variavelMunicaoLaser);
 			atirandoLaser = true;
 			variavelMunicaoLaser -= 1;
-		} else if (armaDeCima != null && armaDeCima.getModeloDaArma() == 1 && armaCima && atirandoCima == true
-				&& fimDaMunicaoCima == false) {
+		} else if (armas[7] != null && armaDeCima != null && armaDeCima.getModeloDaArma() == 1 && armaCima
+				&& atirandoCima == true && fimDaMunicaoCima == false) {
 			tiroArmaLaser = new TiroArmaLaser(variavelMunicaoCimaLaser);
 			atirandoLaser = true;
 			variavelMunicaoCimaLaser -= 1;
 
 		}
 
+	}
+
+	public void armaCanhao(SuperArma armaDeBaixo, SuperArma armaDeCima) {
+		if (armas[6] != null && armaDeBaixo != null && armaDeBaixo.getModeloDaArma() == 2 && armaBaixo
+				&& atirandoCima == false && fimDaMunicao == false) {
+			for (int i = 0; i < tiroCanhao.length; i++) {
+
+				atirandoCanhao = true;
+				TiroCanhao t = new TiroCanhao(12);
+				tiroCanhao[i] = t;
+				break;
+			}
+		} else if (armas[7] != null && armaDeCima != null && armaDeCima.getModeloDaArma() == 2 && armaCima
+				&& atirandoCima == true && fimDaMunicaoCima == false) {
+			for (int i = 0; i < tiroCanhao.length; i++) {
+
+				atirandoCanhao = true;
+				TiroCanhao t = new TiroCanhao(12);
+				tiroCanhao[i] = t;
+				break;
+			}
+		}
 	}
 
 	public void tiroPadrao() {
@@ -223,13 +266,18 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 		if (armas[0] != null) {
 			if (armas[0].isPegou() == false) {
 				armas[0].pegar(this);
+
 			}
 			if (armas[0].isPegou() == true) {
 				armas[0].update(this);
 				if (armas[0].isNaveCima() == false) {
 					armas[6] = armas[0];
+					armas[0] = null;
+
 				} else if (armas[0].isNaveCima() == true) {
 					armas[7] = armas[0];
+					armas[0] = null;
+
 				}
 			}
 
@@ -237,13 +285,17 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 		if (armas[1] != null) {
 			if (armas[1].isPegou() == false) {
 				armas[1].pegar(this);
+
 			}
 			if (armas[1].isPegou() == true) {
 				armas[1].update(this);
 				if (armas[1].isNaveCima() == false) {
 					armas[6] = armas[1];
+					armas[1] = null;
+
 				} else if (armas[1].isNaveCima() == true) {
 					armas[7] = armas[1];
+					armas[1] = null;
 				}
 			}
 
@@ -251,29 +303,58 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 		if (armas[2] != null) {
 			if (armas[2].isPegou() == false) {
 				armas[2].pegar(this);
+
 			}
 			if (armas[2].isPegou() == true) {
 				armas[2].update(this);
 				if (armas[2].isNaveCima() == false) {
 					armas[6] = armas[2];
+					armas[2] = null;
 				} else if (armas[2].isNaveCima() == true) {
 					armas[7] = armas[2];
+					armas[2] = null;
 				}
 			}
 		}
 		if (armas[3] != null) {
 			if (armas[3].isPegou() == false) {
 				armas[3].pegar(this);
+
 			}
 			if (armas[3].isPegou() == true) {
 				armas[3].update(this);
 				if (armas[3].isNaveCima() == false) {
 					armas[6] = armas[3];
+					armas[3] = null;
 				} else if (armas[3].isNaveCima() == true) {
 					armas[7] = armas[3];
+					armas[3] = null;
 				}
 			}
 		}
+		if (armas[6] != null) {
+			armas[6].update(this);
+		}
+		if (armas[7] != null) {
+			armas[7].update(this);
+		}
+	}
+
+	public void possuiArmaNaPosicao() {
+		for (int i = 0; i < armas.length; i++) {
+			if (armas[i] != null) {
+				if (armaCima && armas[i].pegar(this) && armas[7] != armas[i] && armas[6] != armas[i]) {
+					armaBaixo = false;
+					armas[6] = null;
+				}
+			}
+		}
+	}
+
+	public void destruirArmas() {
+		for (int j = 0; j < armas.length; j++) {
+		}
+
 	}
 
 	public int getDanoTiroPadrao() {
@@ -431,6 +512,22 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 
 	public SuperArma[] getArmas() {
 		return armas;
+	}
+
+	public boolean isAtirandoCanhao() {
+		return atirandoCanhao;
+	}
+
+	public void setAtirandoCanhao(boolean atirandoCanhao) {
+		this.atirandoCanhao = atirandoCanhao;
+	}
+
+	public TiroCanhao[] getTiroCanhao() {
+		return tiroCanhao;
+	}
+
+	public void setTiroCanhao(TiroCanhao[] tiroCanhao) {
+		this.tiroCanhao = tiroCanhao;
 	}
 
 }

@@ -12,7 +12,7 @@ public  class SuperArma extends ObjetoGraficoMovelComAnimacao {
 		this.modeloDaArma = modeloDaArma;
 	}
 
-	public void pegar(Nave nave) {
+	public boolean pegar(Nave nave) {
 		getRectangle();
 		nave.getRectangle();
 		if (getRectangle().intersects(nave.getRectangle())) {
@@ -21,12 +21,15 @@ public  class SuperArma extends ObjetoGraficoMovelComAnimacao {
 				nave.setArmaCima(true);
 				naveCima = true;
 				pegou = true;
+				return true;
 			} else if (nave.isArmaBaixo() == false) {
 				nave.setArmaBaixo(true);
 				pegou = true;
+				return true;
 			}
 
 		}
+		return false;
 	}
 
 	public void update(Nave nave) {
