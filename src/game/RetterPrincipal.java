@@ -296,7 +296,7 @@ public class RetterPrincipal extends Game {
 
 			if (esquadraoUm != null) {
 				esquadraoUm.draw(getGraphics2D(), 400, 400);
-				esquadraoUm.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser());
+				esquadraoUm.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(),nave.getTiroCanhao());
 				esquadraoUm.update();
 				if (esquadraoUm.isControle() == true) {
 					esquadraoUm = null;
@@ -304,7 +304,7 @@ public class RetterPrincipal extends Game {
 			}
 			if (esquadraoDois != null && esquadraoUm == null) {
 				esquadraoDois.draw(getGraphics2D(), 400, 400);
-				esquadraoDois.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser());
+				esquadraoDois.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(),nave.getTiroCanhao());
 				esquadraoDois.update();
 			}
 			desenharImagem(botao, Utils.getInstance().getWidth() / 2, Utils.getInstance().getHeight() / 2 + 200);

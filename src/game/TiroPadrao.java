@@ -1,5 +1,7 @@
 package game;
 
+import br.senai.sc.engine.Utils;
+
 public class TiroPadrao extends SuperTiro {
 
 	public TiroPadrao(int posX, int posY, int dano) {
@@ -9,6 +11,7 @@ public class TiroPadrao extends SuperTiro {
 
 	public void update() {
 		setPosX(getPosX() + getVelX());
+
 	}
 
 	@Override
@@ -16,4 +19,6 @@ public class TiroPadrao extends SuperTiro {
 		// TODO Auto-generated method stub
 		return super.getDano();
 	}
+
+	
 }

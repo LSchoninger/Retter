@@ -1,5 +1,7 @@
 package game;
 
+import br.senai.sc.engine.Utils;
+
 public abstract class SuperTiro extends ObjetoGraficoMovel {
 
 	// Super classe dos tiros, todos os projeteis vão herdar dessa classe
@@ -37,6 +39,13 @@ public abstract class SuperTiro extends ObjetoGraficoMovel {
 
 	public void setMunicao(int municao) {
 		this.municao = municao;
+	}
+	public boolean isForaDaTela() {
+		if (getPosX() >= Utils.getInstance().getWidth()) {
+			return true;
+		}
+		return false;
+
 	}
 
 }

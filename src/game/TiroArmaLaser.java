@@ -16,6 +16,7 @@ public class TiroArmaLaser extends SuperTiro {
 			setPosY(nave.getPosY() - 8);
 			//setMunicao(getMunicao() - 1);
 		}
+		
 	}
 
 	public boolean fimDeMunicao() {

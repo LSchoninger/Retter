@@ -57,4 +57,20 @@ public abstract class SuperInimigo extends ObjetoGraficoMovelComAnimacao {
 		return false;
 	}
 
+	public boolean rectangleArmaCanhao(TiroCanhao[] tiro) {
+		getRectangle();
+		for (int i = 0; i < tiro.length; i++) {
+			if (tiro[i] != null) {
+				tiro[i].getRectangle();
+				if (getRectangle().intersects(tiro[i].getRectangle())) {
+					setHp(getHp() - tiro[i].getDano());
+					tiro[i]=null;
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 }
