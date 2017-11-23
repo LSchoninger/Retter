@@ -1,13 +1,15 @@
 package game;
 
+import java.awt.Image;
+
 import br.senai.sc.engine.Utils;
 
 public class InimigoComum extends SuperInimigo {
 	boolean destruido;
 	private int posicaoTela;
 
-	public InimigoComum(int hP, int posX, int posY) {
-		super(posX, posY, 119, 112, "images/sonicDoMal.png", 15, 15, 0, 0, 7, 3, hP);
+	public InimigoComum(int hP, int posX, int posY,String fileName) {
+		super(posX, posY, 119, 112,fileName, 15, 15, 0, 0, 7, 3, hP);
 
 	}
 

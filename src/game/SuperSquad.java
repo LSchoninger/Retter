@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
 
 public abstract class SuperSquad extends InimigoComum {
 	private int posX;
@@ -11,8 +12,8 @@ public abstract class SuperSquad extends InimigoComum {
 	private int control;
 	private InimigoComum[] verbot;
 
-	public SuperSquad(int posX, int posY, boolean controle, int hp, int control) {
-		super(0, 0, 0);
+	public SuperSquad(int posX, int posY, boolean controle, int hp, int control,String fileName) {
+		super(0, 0, 0,fileName);
 		this.posX = posX;
 		this.posY = posY;
 		this.hp = hp;
