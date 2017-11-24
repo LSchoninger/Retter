@@ -14,7 +14,7 @@ public class InimigoComum extends SuperInimigo {
 	}
 
 	public void update() {
-		setFrameY(1);
+		setFrameY(2);
 		setFrameX(getFrameX() + 1);
 		if (getFrameX() >= 7) {
 			setFrameX(0);

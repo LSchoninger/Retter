@@ -29,6 +29,9 @@ public class RetterPrincipal extends Game {
 	private SquadOne esquadraoUm;
 	private SquadTwo esquadraoDois;
 	private SquadThree esquadraoTres;
+	private SquadFour esquadraoQuatro;
+	private SquadFive esquadraoCinco;
+	private SquadSix esquadraoSeis;
 	private MiddleGround[] groundDoMeio;
 
 	public RetterPrincipal() {
@@ -70,6 +73,12 @@ public class RetterPrincipal extends Game {
 		esquadraoUm.squadOne();
 		esquadraoDois = new SquadTwo(500);
 		esquadraoTres = new SquadThree(500);
+		esquadraoQuatro = new SquadFour(1000);
+		esquadraoCinco = new SquadFive(1000);
+		esquadraoSeis = new SquadSix(1000);
+		esquadraoSeis.Squad6();
+		esquadraoCinco.Squad5();
+		esquadraoQuatro.Squad4();
 		esquadraoDois.squadTwo();
 		esquadraoTres.SquadTree();
 		boss1 = new BossTerrestre();
@@ -321,9 +330,36 @@ public class RetterPrincipal extends Game {
 					esquadraoTres = null;
 				}
 			}
-			if (boss1!=null&&esquadraoTres == null) {
+			if (boss1 != null && esquadraoTres == null) {
 				boss1.draw(getGraphics2D());
 				boss1.update();
+				if (boss1.getHp() <= 0) {
+					boss1 = null;
+				}
+			}
+			if (esquadraoQuatro != null && boss1 == null) {
+				esquadraoQuatro.draw(getGraphics2D(), 400, 400);
+				esquadraoQuatro.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao());
+				esquadraoQuatro.update();
+				if (esquadraoQuatro.isControle() == true) {
+					esquadraoQuatro = null;
+				}
+			}
+			if (esquadraoCinco != null && esquadraoQuatro == null) {
+				esquadraoCinco.draw(getGraphics2D(), 400, 400);
+				esquadraoCinco.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao());
+				esquadraoCinco.update();
+				if (esquadraoCinco.isControle() == true) {
+					esquadraoCinco = null;
+				}
+			}
+			if (esquadraoSeis != null && esquadraoCinco == null) {
+				esquadraoSeis.draw(getGraphics2D(), 400, 400);
+				esquadraoSeis.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao());
+				esquadraoSeis.update();
+				if (esquadraoSeis.isControle() == true) {
+					esquadraoSeis = null;
+				}
 			}
 			desenharImagem(botao, Utils.getInstance().getWidth() / 2, Utils.getInstance().getHeight() / 2 + 200);
 			nave.draw(getGraphics2D());

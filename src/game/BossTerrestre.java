@@ -6,7 +6,7 @@ public class BossTerrestre extends SuperInimigo {
 	private int dano;
 
 	public BossTerrestre() {
-		super(1024, Utils.getInstance().getHeight() - 121, 217, 101, "images/Boss1.png", 15, 15, 0, 0, 4, 1, 5000);
+		super(1024, Utils.getInstance().getHeight() - 121, 217, 101, "images/Boss1.png", 15, 15, 0, 0, 4, 1, 0);
 	}
 
 	public void update() {
