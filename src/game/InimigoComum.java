@@ -1,19 +1,21 @@
 package game;
 
+import java.awt.Graphics2D;
 import java.awt.Image;
 
 import br.senai.sc.engine.Utils;
 
 public class InimigoComum extends SuperInimigo {
-	boolean destruido;
+	private boolean destruido;
 	private int posicaoTela;
+	private TiroInimigo tiro;
 
-	public InimigoComum(int hP, int posX, int posY,String fileName) {
-		super(posX, posY, 119, 112,fileName, 15, 15, 0, 0, 7, 3, hP);
-
+	public InimigoComum(int hP, int posX, int posY, String fileName) {
+		super(posX, posY, 119, 112, fileName, 15, 5, 0, 0, 7, 3, hP);
+		setVelY(2);
 	}
 
-	public void update() {
+	public void update(int velX, int dano) {
 		setFrameY(2);
 		setFrameX(getFrameX() + 1);
 		if (getFrameX() >= 7) {
@@ -24,6 +26,20 @@ public class InimigoComum extends SuperInimigo {
 		} else {
 			destruido = false;
 		}
+		// if (posicaoTela == 0) {
+		// setPosY(getPosY() + getVelY());
+		// if (RectangleAnother(enemy)) {
+		// setVelY(getVelY() * -1);
+		// enemy.setVelY(getVelY() * -1);
+		// }
+		// if (getPosY() <= 0) {
+		// setPosY(0);
+		// setVelY(getVelY() * -1);
+		// }
+		// if (getPosY()+getHeight() >= Utils.getInstance().getHeight()) {
+		// setPosY(Utils.getInstance().getHeight() - getHeight());
+		// setVelY(getVelY() * -1);
+		// }}
 		if (posicaoTela == 1) {
 			setPosX(getPosX() - getVelX());
 			if (!(getPosX() + getWidth() > Utils.getInstance().getWidth())) {
@@ -55,6 +71,18 @@ public class InimigoComum extends SuperInimigo {
 				posicaoTela = 0;
 			}
 		}
+		if (tiro == null && atirar()) {
+			tiro = new TiroInimigo(getPosX(), getPosY() + 10, velX, dano);
+		}
+	}
+
+	public boolean RectangleAnother(InimigoComum enemy) {
+		getRectangle();
+		enemy.getRectangle();
+		if (getRectangle().intersects(enemy.getRectangle())) {
+			return true;
+		}
+		return false;
 	}
 
 	public boolean isDestruido() {
@@ -71,6 +99,14 @@ public class InimigoComum extends SuperInimigo {
 
 	public void setPosicaoTela(int posicaoTela) {
 		this.posicaoTela = posicaoTela;
+	}
+
+	public TiroInimigo getTiro() {
+		return tiro;
+	}
+
+	public void setTiro(TiroInimigo tiro) {
+		this.tiro = tiro;
 	}
 
 }

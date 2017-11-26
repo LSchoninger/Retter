@@ -47,5 +47,13 @@ public abstract class SuperTiro extends ObjetoGraficoMovel {
 		return false;
 
 	}
+	public boolean RectangleNave(Nave nave){
+		getRectangle();
+		nave.getRectangle();
+		if(getRectangle().intersects(nave.getRectangle())){
+			return true;
+		}
+		return false;
+	}
 
 }

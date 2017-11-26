@@ -12,19 +12,29 @@ public abstract class SuperSquad extends InimigoComum {
 	private int control;
 	private InimigoComum[] verbot;
 
-	public SuperSquad(int posX, int posY, boolean controle, int hp, int control,String fileName) {
-		super(0, 0, 0,fileName);
+	public SuperSquad(int posX, int posY, boolean controle, int hp, int control, String fileName) {
+		super(0, 0, 0, fileName);
 		this.posX = posX;
 		this.posY = posY;
 		this.hp = hp;
 		this.control = control;
 	}
 
-	public void update() {
+	public void update(int velX, int dano, Nave nave) {
 		if (verbot != null) {
 			for (int i = 0; i < verbot.length; i++) {
 				if (verbot[i] != null) {
-					verbot[i].update();
+					verbot[i].update(velX, dano);
+					if (verbot[i].getTiro() != null) {
+						verbot[i].getTiro().update();
+						if (verbot[i].getTiro().getPosX() <= 0) {
+							verbot[i].setTiro(null);
+						}
+						if (verbot[i].getTiro() != null && verbot[i].getTiro().RectangleNave(nave)) {
+							nave.sethP(nave.gethP() - verbot[i].getTiro().getDano());
+							verbot[i].setTiro(null);
+						}
+					}
 				}
 			}
 		}
@@ -35,6 +45,9 @@ public abstract class SuperSquad extends InimigoComum {
 			for (int i = 0; i < verbot.length; i++) {
 				if (verbot[i] != null) {
 					verbot[i].draw(g);
+					if (verbot[i].getTiro() != null) {
+						verbot[i].getTiro().draw(g);
+					}
 				}
 			}
 		}

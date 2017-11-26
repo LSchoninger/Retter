@@ -1,5 +1,7 @@
 package game;
 
+import java.util.Random;
+
 public abstract class SuperInimigo extends ObjetoGraficoMovelComAnimacao {
 
 	// Se chama super pois é a classe que os inimigos(inclusive BOSSE'S) vão
@@ -70,6 +72,13 @@ public abstract class SuperInimigo extends ObjetoGraficoMovelComAnimacao {
 			}
 		}
 
+		return false;
+	}
+	public boolean atirar(){
+		Random rdm= new Random();
+		if(rdm.nextInt(50)==12){
+			return true;
+		}
 		return false;
 	}
 
