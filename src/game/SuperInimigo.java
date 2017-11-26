@@ -74,9 +74,9 @@ public abstract class SuperInimigo extends ObjetoGraficoMovelComAnimacao {
 
 		return false;
 	}
-	public boolean atirar(){
+	public boolean atirar(int numero){
 		Random rdm= new Random();
-		if(rdm.nextInt(50)==12){
+		if(rdm.nextInt(numero)==12){
 			return true;
 		}
 		return false;

@@ -17,8 +17,10 @@ public class SquadOne extends SuperSquad {
 
 	public void squadOne() {
 		for (int i = 0; i < verbot.length; i++) {
-			verbot[i] = new InimigoComum(getHp(), getPosX(), getPosY() + getControlTela(), "images/sonicDoMal.png");
+			verbot[i] = new InimigoComum(getHp(), getPosX(), getPosY() + getControlTela(), "images/Verbot1.png",4,50);
 			verbot[i].setPosicaoTela(1);
+			verbot[i].setWidth(61);
+			verbot[i].setHeight(22);
 			setControlTela(getControlTela() + 150);
 			setVerbot(verbot);
 			if (getControl() == 0) {

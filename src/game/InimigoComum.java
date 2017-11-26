@@ -9,16 +9,19 @@ public class InimigoComum extends SuperInimigo {
 	private boolean destruido;
 	private int posicaoTela;
 	private TiroInimigo tiro;
+	private int frequenciaDeTiros;
 
-	public InimigoComum(int hP, int posX, int posY, String fileName) {
-		super(posX, posY, 119, 112, fileName, 15, 5, 0, 0, 7, 3, hP);
+	public InimigoComum(int hP, int posX, int posY, String fileName, int cols, int frequenciaDeTiros) {
+		super(posX, posY, 120, 33, fileName, 15, 5, 0, 0, 7, 3, hP);
 		setVelY(2);
+		setCols(cols);
+		setFrequenciaDeTiros(frequenciaDeTiros);
 	}
 
 	public void update(int velX, int dano) {
-		setFrameY(2);
+		setFrameY(0);
 		setFrameX(getFrameX() + 1);
-		if (getFrameX() >= 7) {
+		if (getFrameX() >= getCols()) {
 			setFrameX(0);
 		}
 		if (getHp() <= 0) {
@@ -71,7 +74,7 @@ public class InimigoComum extends SuperInimigo {
 				posicaoTela = 0;
 			}
 		}
-		if (tiro == null && atirar()) {
+		if (tiro == null && atirar(frequenciaDeTiros)) {
 			tiro = new TiroInimigo(getPosX(), getPosY() + 10, velX, dano);
 		}
 	}
@@ -107,6 +110,14 @@ public class InimigoComum extends SuperInimigo {
 
 	public void setTiro(TiroInimigo tiro) {
 		this.tiro = tiro;
+	}
+
+	public int getFrequenciaDeTiros() {
+		return frequenciaDeTiros;
+	}
+
+	public void setFrequenciaDeTiros(int frequenciaDeTiros) {
+		this.frequenciaDeTiros = frequenciaDeTiros;
 	}
 
 }

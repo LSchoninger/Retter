@@ -11,7 +11,7 @@ public class SquadFive extends SuperSquad {
 
 	public void Squad5() {
 		for (int i = 0; i < shades.length; i++) {
-			shades[i] = new InimigoComum(getHp(), getPosX(), getPosY() + getControlTela(), "images/sonicDoMal3.png");
+			shades[i] = new InimigoComum(getHp(), getPosX(), getPosY() + getControlTela(), "images/Shades2.png",5,35);
 			setControlTela(getControlTela() + 125);
 			shades[i].setPosicaoTela(6);
 			setVerbot(shades);

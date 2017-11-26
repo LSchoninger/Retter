@@ -13,7 +13,7 @@ public abstract class SuperSquad extends InimigoComum {
 	private InimigoComum[] verbot;
 
 	public SuperSquad(int posX, int posY, boolean controle, int hp, int control, String fileName) {
-		super(0, 0, 0, fileName);
+		super(0, 0, 0, fileName,0,0);
 		this.posX = posX;
 		this.posY = posY;
 		this.hp = hp;
