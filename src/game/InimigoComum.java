@@ -2,6 +2,7 @@ package game;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.util.Random;
 
 import br.senai.sc.engine.Utils;
 
@@ -10,12 +11,15 @@ public class InimigoComum extends SuperInimigo {
 	private int posicaoTela;
 	private TiroInimigo tiro;
 	private int frequenciaDeTiros;
+	private int selectorVelY;
 
 	public InimigoComum(int hP, int posX, int posY, String fileName, int cols, int frequenciaDeTiros) {
-		super(posX, posY, 120, 33, fileName, 15, 5, 0, 0, 7, 3, hP);
+		super(posX, posY, 120, 33, fileName, 15, 9, 0, 0, 7, 3, hP);
+		Random rdm = new Random();
 		setVelY(2);
 		setCols(cols);
 		setFrequenciaDeTiros(frequenciaDeTiros);
+		selectorVelY=rdm.nextInt(2);
 	}
 
 	public void update(int velX, int dano) {
@@ -29,20 +33,22 @@ public class InimigoComum extends SuperInimigo {
 		} else {
 			destruido = false;
 		}
-		// if (posicaoTela == 0) {
-		// setPosY(getPosY() + getVelY());
-		// if (RectangleAnother(enemy)) {
-		// setVelY(getVelY() * -1);
-		// enemy.setVelY(getVelY() * -1);
-		// }
-		// if (getPosY() <= 0) {
-		// setPosY(0);
-		// setVelY(getVelY() * -1);
-		// }
-		// if (getPosY()+getHeight() >= Utils.getInstance().getHeight()) {
-		// setPosY(Utils.getInstance().getHeight() - getHeight());
-		// setVelY(getVelY() * -1);
-		// }}
+		if (posicaoTela == 0) {
+			
+			if(selectorVelY ==1){
+			setPosY(getPosY() + getVelY());}
+			else {
+				setPosY(getPosY() - getVelY());
+			}
+			if (getPosY() <= 60) {
+				setPosY(60);
+				setVelY(getVelY() * -1);
+			}
+			if (getPosY() + getHeight()+30 >= Utils.getInstance().getHeight()) {
+				setPosY(Utils.getInstance().getHeight() - getHeight()-30);
+				setVelY(getVelY() * -1);
+			}
+		}
 		if (posicaoTela == 1) {
 			setPosX(getPosX() - getVelX());
 			if (!(getPosX() + getWidth() > Utils.getInstance().getWidth())) {

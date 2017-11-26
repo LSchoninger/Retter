@@ -41,7 +41,7 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 		armas = new SuperArma[8];
 		armas[0] = new ArmaLaser(600, 400);
 		armas[1] = new ArmaLaser(400, 600);
-		armas[2] = new ArmaCanhao(50, 50);
+		armas[2] = new ArmaCanhao(130, 130);
 		armas[3] = new ArmaCanhao(100, 100);
 		// armas[6] e [7] sao baixo e cima;
 
@@ -90,8 +90,8 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 				setFrameX(getFrameX() + 1);
 				setPosY(getPosY() - getVelY());
 			}
-			if (getPosY() <= 0) {
-				setPosY(0);
+			if (getPosY() <= 60) {
+				setPosY(60);
 			}
 		} else if (downPressed) {
 			if (rightPressed || leftPressed) {

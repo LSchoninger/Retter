@@ -18,6 +18,7 @@ public class RetterPrincipal extends Game {
 	private TelaEstatica cutscenes01;
 	private TelaEstatica gameOver;
 	private SelecaoNave selecaoDeNaves;
+	private LifeBar lifeBar;
 	private Ground ground[];
 	private BackGround backGround[];
 	private Pause pause;
@@ -26,6 +27,7 @@ public class RetterPrincipal extends Game {
 	private TelaEstatica jogo;
 	private Nave nave;
 	private BossTerrestre boss1;
+	private BossFinal boss2;
 	private SquadOne esquadraoUm;
 	private SquadTwo esquadraoDois;
 	private SquadThree esquadraoTres;
@@ -61,6 +63,7 @@ public class RetterPrincipal extends Game {
 		ground[1] = new Ground(20, 2000);
 		groundDoMeio[0] = new MiddleGround(0);
 		groundDoMeio[1] = new MiddleGround(768);
+		lifeBar=new LifeBar();
 		menu = new Menu();
 		creditos = new Creditos();
 		cutscenes01 = new Cutscene(Color.MAGENTA);
@@ -82,6 +85,7 @@ public class RetterPrincipal extends Game {
 		esquadraoDois.squadTwo();
 		esquadraoTres.SquadTree();
 		boss1 = new BossTerrestre();
+		boss2=new BossFinal();
 	}
 
 	@Override
@@ -360,11 +364,17 @@ public class RetterPrincipal extends Game {
 				if (esquadraoSeis.isControle() == true) {
 					esquadraoSeis = null;
 				}
+			}if(boss2!=null&&esquadraoSeis==null){
+				boss2.draw(getGraphics2D());
+				boss2.update();
 			}
 			desenharImagem(botao, Utils.getInstance().getWidth() / 2, Utils.getInstance().getHeight() / 2 + 200);
+			//DESENHO DA NAVE
 			nave.draw(getGraphics2D());
 			nave.update();
-			// TODO tentar corrigir bug de processamento de tiro da arma.
+			desenharRetangulo(0, 0, 2000, 60, Color.GRAY);
+			lifeBar.draw(getGraphics2D());
+			lifeBar.update(nave);
 
 			nave.RectangleChao(ground[0]);
 			nave.RectangleChao(ground[1]);
