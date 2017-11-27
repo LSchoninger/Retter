@@ -2,11 +2,13 @@ package game;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 
 import br.senai.sc.engine.Utils;
 
 public class SelecaoNave extends TelaEstatica {
 	private int escolhaSuaNave;
+	private Image[] naves;
 
 	public SelecaoNave() {
 		super(Color.gray, false);
@@ -20,7 +22,10 @@ public class SelecaoNave extends TelaEstatica {
 				"images/Proximo.png");
 		getBotoes()[2] = new Botao(Utils.getInstance().getWidth() - 350, Utils.getInstance().getHeight() - 100, 293,
 				107, "images/Start.png");
-
+naves = new Image[3];
+naves[0]=Utils.getInstance().loadImage("images/Flak1.png");
+naves[1]=Utils.getInstance().loadImage("images/Flak2.png");
+naves[2]=Utils.getInstance().loadImage("images/Flak3.png");
 	}
 
 	public int getEscolhaSuaNave() {
@@ -38,15 +43,12 @@ public class SelecaoNave extends TelaEstatica {
 			escolhaSuaNave = 0;
 		}
 		if (escolhaSuaNave == 0) {
-			g.setColor(Color.cyan);
-			g.fillRect(Utils.getInstance().getWidth() / 2 -100, Utils.getInstance().getHeight() / 2,250, 250);
+			g.drawImage(naves[0], 412, 400, 200,50, null);
 
 		} else if (escolhaSuaNave == 1) {
-			g.setColor(Color.GREEN);
-			g.fillRect(Utils.getInstance().getWidth() / 2 - 100, Utils.getInstance().getHeight() / 2, 250, 250);
+			g.drawImage(naves[1], 412, 400, 200,50, null);
 		} else if (escolhaSuaNave == 2) {
-			g.setColor(Color.PINK);
-			g.fillRect(Utils.getInstance().getWidth() / 2 -100, Utils.getInstance().getHeight() / 2, 250, 250);
+			g.drawImage(naves[2], 412, 400, 200,50, null);
 		}
 
 	}

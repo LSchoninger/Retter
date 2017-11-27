@@ -22,6 +22,7 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 	private int variavelMunicaoLaser;
 	private int variavelMunicaoCimaLaser;
 	private int hP;
+	private int hPInicial;
 	private int vidas;
 	private TiroArmaLaser tiroArmaLaser;
 	private TiroPadrao[] tiros;
@@ -29,10 +30,11 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 	private SuperArma[] armas;
 	private TiroCanhao[] tiroCanhao;
 
-	public Nave(int vidas, int hP) {
-		super(50, 500, 106, 33, "images/TesteSheet.png", 17, 17, 0, 0, 4, 3);
+	public Nave(int vidas, int hP,String fileName) {
+		super(50, 500, 120, 39, fileName, 17, 17, 0, 0, 6, 3);
 		this.vidas = vidas;
 		this.hP = hP;
+		hPInicial=hP;
 		this.tiros = new TiroPadrao[7];
 		tiroCanhao = new TiroCanhao[1000];
 		variavelMunicaoLaser = 7;
@@ -124,7 +126,7 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 		if (gethP() <= 0) {
 			setPosX(50);
 			setPosY(500);
-			sethP(700);
+			sethP(hPInicial);
 			setVidas(getVidas() - 1);
 			if (getVidas() <= 0) {
 				destruido = true;
