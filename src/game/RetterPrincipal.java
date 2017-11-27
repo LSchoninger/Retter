@@ -352,7 +352,7 @@ public class RetterPrincipal extends Game {
 			}
 			if (boss1 != null && esquadraoTres == null) {
 				boss1.draw(getGraphics2D());
-				boss1.update();
+				boss1.update(nave.getTiroCanhao(), nave.getTiroArmaLaser(), nave.getTiros(), nave);
 				if (boss1.getHp() <= 0) {
 					boss1 = null;
 				}
@@ -383,7 +383,19 @@ public class RetterPrincipal extends Game {
 			}
 			if (boss2 != null && esquadraoSeis == null) {
 				boss2.draw(getGraphics2D());
-				boss2.update();
+
+				if (boss2.isAtirando()) {
+					boss2.megaTiro(getGraphics2D(), nave.getTiroCanhao(), nave.getTiroArmaLaser(), nave.getTiros(),
+							nave);
+					if (boss2.getHp() <= 0) {
+						boss2 = null;
+					}
+				} else {
+					boss2.update(nave.getTiroCanhao(), nave.getTiroArmaLaser(), nave.getTiros(), nave);
+					if (boss2.getHp() <= 0) {
+						boss2 = null;
+					}
+				}
 			}
 			desenharImagem(botao, Utils.getInstance().getWidth() / 2, Utils.getInstance().getHeight() / 2 + 200);
 			// DESENHO DA NAVE

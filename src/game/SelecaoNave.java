@@ -22,10 +22,10 @@ public class SelecaoNave extends TelaEstatica {
 				"images/Proximo.png");
 		getBotoes()[2] = new Botao(Utils.getInstance().getWidth() - 350, Utils.getInstance().getHeight() - 100, 293,
 				107, "images/Start.png");
-naves = new Image[3];
-naves[0]=Utils.getInstance().loadImage("images/Flak1.png");
-naves[1]=Utils.getInstance().loadImage("images/Flak2.png");
-naves[2]=Utils.getInstance().loadImage("images/Flak3.png");
+		naves = new Image[3];
+		naves[0] = Utils.getInstance().loadImage("images/Flak1.png");
+		naves[1] = Utils.getInstance().loadImage("images/Flak2.png");
+		naves[2] = Utils.getInstance().loadImage("images/Flak3.png");
 	}
 
 	public int getEscolhaSuaNave() {
@@ -43,12 +43,12 @@ naves[2]=Utils.getInstance().loadImage("images/Flak3.png");
 			escolhaSuaNave = 0;
 		}
 		if (escolhaSuaNave == 0) {
-			g.drawImage(naves[0], 412, 400, 200,50, null);
+			g.drawImage(naves[0], 362, 450, 300, 75, null);
 
 		} else if (escolhaSuaNave == 1) {
-			g.drawImage(naves[1], 412, 400, 200,50, null);
+			g.drawImage(naves[1], 362, 450, 300, 75, null);
 		} else if (escolhaSuaNave == 2) {
-			g.drawImage(naves[2], 412, 400, 200,50, null);
+			g.drawImage(naves[2], 362, 450, 300, 75, null);
 		}
 
 	}
