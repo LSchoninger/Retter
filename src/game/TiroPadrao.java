@@ -5,11 +5,11 @@ import br.senai.sc.engine.Utils;
 public class TiroPadrao extends SuperTiro {
 
 	public TiroPadrao(int posX, int posY, int dano) {
-		super(posX, posY, 3, 6, "images/TiroPadrao.png", 40, 40, 50, 100);
+		super(posX, posY, 3, 6, "images/TiroPadrao.png", 40, 40, 50, 1000);
 
 	}
 
-	public void update() {
+	public void update(Nave nave) {
 		setPosX(getPosX() + getVelX());
 
 	}
@@ -20,5 +20,4 @@ public class TiroPadrao extends SuperTiro {
 		return super.getDano();
 	}
 
-	
 }

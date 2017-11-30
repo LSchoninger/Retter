@@ -5,7 +5,7 @@ import br.senai.sc.engine.Utils;
 public class BackGround extends ObjetoGraficoMovel {
 
 	public BackGround(int posX) {
-		super(posX, 0, 1024, 768, "Images/FundoRetter.png", 7, 0);
+		super(posX, 0, 1024, 768, "Images/FundoRetterV2.png", 7, 0);
 
 	}
 

@@ -6,7 +6,7 @@ public class Ground extends ObjetoGraficoMovel {
 	private int dano;
 
 	public Ground(int dano, int posX) {
-		super(posX, Utils.getInstance().getHeight() - 30, 2000, 180, "images/ground.png", 15, 0);
+		super(posX, Utils.getInstance().getHeight()-30, 2000, 150, "images/ground.png", 15, 0);
 		this.dano = dano;
 	}
 

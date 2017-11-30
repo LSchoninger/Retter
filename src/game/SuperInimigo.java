@@ -25,12 +25,14 @@ public abstract class SuperInimigo extends ObjetoGraficoMovelComAnimacao {
 
 	// TODO COLISÃO NAVE, TIRO NAVE
 	public void rectangleNave(Nave nave) {
-		getRectangle();
-		nave.getRectangle();
-		if (getRectangle().intersects(nave.getRectangle())) {
-			// vida por enquanto so destroi instan quase;
-			setHp(getHp() - getHp() / 2);
-			nave.sethP(getHp() - 350);
+		if (nave.isInvencivel() == false) {
+			getRectangle();
+			nave.getRectangle();
+			if (getRectangle().intersects(nave.getRectangle())) {
+				// vida por enquanto so destroi instan quase;
+				setHp(getHp() - getHp() / 2);
+				nave.sethP(getHp() - 350);
+			}
 		}
 	}
 
@@ -66,7 +68,7 @@ public abstract class SuperInimigo extends ObjetoGraficoMovelComAnimacao {
 				tiro[i].getRectangle();
 				if (getRectangle().intersects(tiro[i].getRectangle())) {
 					setHp(getHp() - tiro[i].getDano());
-					tiro[i]=null;
+					tiro[i] = null;
 					return true;
 				}
 			}
@@ -74,9 +76,10 @@ public abstract class SuperInimigo extends ObjetoGraficoMovelComAnimacao {
 
 		return false;
 	}
-	public boolean atirar(int numero){
-		Random rdm= new Random();
-		if(rdm.nextInt(numero)==12){
+
+	public boolean atirar(int numero) {
+		Random rdm = new Random();
+		if (rdm.nextInt(numero) == 12) {
 			return true;
 		}
 		return false;

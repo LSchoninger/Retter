@@ -9,17 +9,23 @@ public class BossFinal extends SuperInimigo {
 	private int dano;
 	private BossTiroMega[] superTiro;
 	private boolean isAtirando;
+	private TiroBossComum tiro;
 
 	public BossFinal() {
-		super(1024, 300, 360, 128, "images/boss2png.png", 7, 6, 0, 0, 0, 0, 12000);
+		super(1024, 300, 384, 113, "images/Boss2V2.png", 7, 6, 0, 0, 2, 8, 12000);
 		superTiro = new BossTiroMega[2];
 	}
 
-	public void update(TiroCanhao[] tiroCanhao, TiroArmaLaser tiroLaser, SuperTiro[] tiros, Nave nave) {
+	public void update(TiroCanhao[] tiroCanhao, TiroArmaLaser tiroLaser, SuperTiro[] tiros, Nave nave, Graphics2D g) {
 		if (getPosX() + getWidth() >= Utils.getInstance().getWidth()) {
 			setPosX(getPosX() - getVelX());
 		}
+		setFrameY(0);
 		setPosY(getPosY() + getVelY());
+		setFrameX(getFrameX() + 1);
+		if (getFrameX() >= 8) {
+			setFrameX(0);
+		}
 
 		if (getPosY() <= 65) {
 			setVelY(getVelY() * -1);
@@ -37,10 +43,28 @@ public class BossFinal extends SuperInimigo {
 			rectangleTiro(tiros);
 		}
 		rectangleNave(nave);
+		if (tiro == null) {
+			tiro = new TiroBossComum(getPosX(), getPosY() + 5, 23, 300);
+
+		}
+		if (tiro != null) {
+			tiro.draw(g);
+			tiro.update();
+			rectangleTiroComumBoss(nave);
+		}
+		if (tiro != null && tiro.getPosX() <= 0) {
+			tiro = null;
+		}
 	}
 
 	public void megaTiro(Graphics2D g, TiroCanhao[] tiroCanhao, TiroArmaLaser tiroLaser, SuperTiro[] tiros, Nave nave) {
+		tiro = null;
 		for (int i = 0; i < superTiro.length; i++) {
+			setFrameY(1);
+			setFrameX(getFrameX() + 1);
+			if (getFrameX() >= 8) {
+				setFrameX(0);
+			}
 			if (superTiro[i] == null) {
 				superTiro[i] = new BossTiroMega(this);
 				superTiro[0].setPosX(200);
@@ -59,6 +83,7 @@ public class BossFinal extends SuperInimigo {
 
 		superTiro[0].update();
 		superTiro[1].draw(g);
+		rectangleSuperMegaTiro(nave);
 		if (superTiro[0].getPosX() <= 0) {
 			for (int i = 0; i < superTiro.length; i++) {
 				superTiro[i] = null;
@@ -97,6 +122,31 @@ public class BossFinal extends SuperInimigo {
 
 	public void setAtirando(boolean isAtirando) {
 		this.isAtirando = isAtirando;
+	}
+
+	public boolean rectangleSuperMegaTiro(Nave nave) {
+		if (nave.isInvencivel() == false) {
+			superTiro[1].getRectangle();
+			nave.getRectangle();
+			if (superTiro[1].getRectangle().intersects(nave.getRectangle())) {
+				nave.sethP(nave.gethP() - superTiro[1].getDano());
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean rectangleTiroComumBoss(Nave nave) {
+		if (nave.isInvencivel() == false) {
+			tiro.getRectangle();
+			nave.getRectangle();
+			if (nave.getRectangle().intersects(tiro.getRectangle())) {
+				nave.sethP(nave.gethP() - tiro.getDano());
+				tiro = null;
+				return true;
+			}
+		}
+		return false;
 	}
 
 }

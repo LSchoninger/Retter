@@ -10,13 +10,13 @@ public class TiroArmaLaser extends SuperTiro {
 		if (nave.isArmaBaixo() && nave.isAtirandoCima() == false) {
 			setPosX(nave.getPosX() + (nave.getWidth() / 2) + 40);
 			setPosY(nave.getPosY() + 22);
-			//setMunicao(getMunicao() - 1);
+			// setMunicao(getMunicao() - 1);
 		} else if (nave.isArmaCima() && nave.isAtirandoCima() == true) {
 			setPosX(nave.getPosX() + (nave.getWidth() / 2) + 40);
 			setPosY(nave.getPosY() - 8);
-			//setMunicao(getMunicao() - 1);
+			// setMunicao(getMunicao() - 1);
 		}
-		
+
 	}
 
 	public boolean fimDeMunicao() {

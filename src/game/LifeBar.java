@@ -3,7 +3,7 @@ package game;
 public class LifeBar extends ObjetoGraficoMovelComAnimacao {
 
 	public LifeBar() {
-		super(180, 5, 262, 40, "images/LifeBar.png", 0, 0, 0, 0, 10, 0);
+		super(180, 15, 320, 32, "images/LifeBare.png", 0, 0, 0, 0, 10, 0);
 
 	}
 

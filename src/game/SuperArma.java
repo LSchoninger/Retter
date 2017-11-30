@@ -1,6 +1,6 @@
 package game;
 
-public  class SuperArma extends ObjetoGraficoMovelComAnimacao {
+public class SuperArma extends ObjetoGraficoMovelComAnimacao {
 	private boolean pegou;
 	private boolean controle;
 	private boolean naveCima;
@@ -8,7 +8,7 @@ public  class SuperArma extends ObjetoGraficoMovelComAnimacao {
 
 	public SuperArma(int posX, int posY, int width, int height, String fileName, int velX, int velY, int frameX,
 			int frameY, int cols, int rows, int modeloDaArma) {
-		super(posX, posY, width, height, fileName, 15, 15, frameX, frameY, cols, rows);
+		super(posX, posY, width, height, fileName, 2, 2, frameX, frameY, cols, rows);
 		this.modeloDaArma = modeloDaArma;
 	}
 
@@ -39,7 +39,14 @@ public  class SuperArma extends ObjetoGraficoMovelComAnimacao {
 		} else if (nave.isArmaCima() && naveCima == true) {
 			setPosX(nave.getPosX() + nave.getWidth() / 2);
 			setPosY(nave.getPosY() - 15);
+			if (modeloDaArma == 3) {
+				setPosY(nave.getPosY() - 50);
+			}
 		}
+	}
+
+	public void update() {
+		setPosX(getPosX() - 1);
 	}
 
 	public boolean isPegou() {
@@ -73,7 +80,8 @@ public  class SuperArma extends ObjetoGraficoMovelComAnimacao {
 	public void setModeloDaArma(int modeloDaArma) {
 		this.modeloDaArma = modeloDaArma;
 	}
-	public void pegandoArmas(){
-		
+
+	public void pegandoArmas() {
+
 	}
 }

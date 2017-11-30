@@ -8,7 +8,7 @@ public class SquadOne extends SuperSquad {
 	private InimigoComum[] verbot = new InimigoComum[4];
 
 	public SquadOne(int hp) {
-		super(1024, -150, false, 0, 0, "images/sonicDoMal.png");
+		super(1024, -150, false, 0, 0, "");
 
 		setControlTela(200);
 		setHp(hp);

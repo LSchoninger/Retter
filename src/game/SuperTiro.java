@@ -13,7 +13,6 @@ public abstract class SuperTiro extends ObjetoGraficoMovel {
 		super(posX, posY, width, height, fileName, velX, velY);
 		this.dano = dano;
 		this.municao = municao;
-
 	}
 
 	@Override
@@ -40,6 +39,7 @@ public abstract class SuperTiro extends ObjetoGraficoMovel {
 	public void setMunicao(int municao) {
 		this.municao = municao;
 	}
+
 	public boolean isForaDaTela() {
 		if (getPosX() >= Utils.getInstance().getWidth()) {
 			return true;
@@ -47,11 +47,15 @@ public abstract class SuperTiro extends ObjetoGraficoMovel {
 		return false;
 
 	}
-	public boolean RectangleNave(Nave nave){
-		getRectangle();
-		nave.getRectangle();
-		if(getRectangle().intersects(nave.getRectangle())){
-			return true;
+
+	public boolean RectangleNave(Nave nave) {
+		if (nave.isInvencivel() == false) {
+			getRectangle();
+			nave.getRectangle();
+			if (getRectangle().intersects(nave.getRectangle())) {
+				return true;
+			}
+
 		}
 		return false;
 	}

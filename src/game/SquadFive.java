@@ -4,7 +4,7 @@ public class SquadFive extends SuperSquad {
 	private InimigoComum[] shades = new InimigoComum[5];
 
 	public SquadFive(int hp) {
-		super(1024, -150, false, hp, 5, "images/sonic.png");
+		super(1024, -150, false, hp, 5, "");
 		setControlTela(200);
 		setHp(hp);
 	}

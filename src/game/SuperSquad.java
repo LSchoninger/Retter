@@ -2,6 +2,9 @@ package game;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.util.Random;
+
+import javax.naming.directory.InvalidAttributeIdentifierException;
 
 public abstract class SuperSquad extends InimigoComum {
 	private int posX;
@@ -54,7 +57,7 @@ public abstract class SuperSquad extends InimigoComum {
 		}
 	}
 
-	public void destruicaoSquad(SuperTiro[] tiro, Nave nave, TiroArmaLaser armaLaser, TiroCanhao[] canhao) {
+	public void destruicaoSquad(SuperTiro[] tiro, Nave nave, TiroArmaLaser armaLaser, TiroCanhao[] canhao, int sorte) {
 		if (verbot != null) {
 			for (int i = 0; i < verbot.length; i++) {
 				if (verbot[i] != null) {
@@ -62,6 +65,9 @@ public abstract class SuperSquad extends InimigoComum {
 					if (armaLaser != null) {
 						if (verbot[i] != null && verbot[i].rectangleArmaLaser(armaLaser)) {
 							if (verbot[i].getHp() <= 0) {
+								if (isDropouArma(sorte)) {
+									nave.setArmas(sorteandoArma(verbot[i]));
+								}
 								verbot[i] = null;
 								control -= 1;
 								if (control == 0) {
@@ -73,6 +79,9 @@ public abstract class SuperSquad extends InimigoComum {
 					if (tiro != null) {
 						if (verbot[i] != null && verbot[i].rectangleTiro(tiro)) {
 							if (verbot[i].getHp() <= 0) {
+								if (isDropouArma(sorte)) {
+									nave.setArmas(sorteandoArma(verbot[i]));
+								}
 								verbot[i] = null;
 								control -= 1;
 								if (control == 0) {
@@ -84,6 +93,9 @@ public abstract class SuperSquad extends InimigoComum {
 					if (canhao != null) {
 						if (verbot[i] != null && verbot[i].rectangleArmaCanhao(canhao)) {
 							if (verbot[i].getHp() <= 0) {
+								if (isDropouArma(sorte)) {
+									nave.setArmas(sorteandoArma(verbot[i]));
+								}
 								verbot[i] = null;
 								control -= 1;
 								if (control == 0) {
@@ -95,6 +107,32 @@ public abstract class SuperSquad extends InimigoComum {
 				}
 			}
 		}
+	}
+
+	public boolean isDropouArma(int sorte) {
+		Random sorteado = new Random();
+		if (sorteado.nextInt(sorte) == 1) {
+			return true;
+		}
+		return false;
+	}
+
+	public SuperArma sorteandoArma(InimigoComum inimigo) {
+		Random sorteado = new Random();
+		SuperArma arma;
+		int controle = sorteado.nextInt(3);
+
+		if (controle == 0) {
+			arma = new ArmaCanhao(inimigo.getPosX(), inimigo.getPosY());
+			return arma;
+		} else if (controle == 1) {
+			arma = new ArmaLaser(inimigo.getPosX(), inimigo.getPosY());
+			return arma;
+		} else if (controle == 2) {
+			arma = new ArmaCanhao(inimigo.getPosX(), inimigo.getPosY());
+			return arma;
+		}
+		return null;
 	}
 
 	public InimigoComum[] getVerbot() {
