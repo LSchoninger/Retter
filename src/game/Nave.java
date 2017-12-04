@@ -14,6 +14,7 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 	private boolean destruido;
 	private boolean armaCima;
 	private boolean atirandoCanhao;
+	private boolean atirandoMissil;
 	private boolean atirandoLaser;
 	private boolean armaBaixo;
 	private boolean atirandoCima;
@@ -27,6 +28,7 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 	private int vidas;
 	private TiroArmaLaser tiroArmaLaser;
 	private TiroPadrao[] tiros;
+	private TiroArmaMissil[] missil;
 	private int danoTiroPadrao;
 	private SuperArma[] armas;
 	private TiroCanhao[] tiroCanhao;
@@ -36,6 +38,7 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 		this.vidas = vidas;
 		this.hP = hP;
 		hPInicial = hP;
+		this.missil = new TiroArmaMissil[7];
 		this.tiros = new TiroPadrao[7];
 		tiroCanhao = new TiroCanhao[1000];
 		variavelMunicaoLaser = 7;
@@ -138,6 +141,7 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 	public void atirar() {
 		armaLaser(armas[6], armas[7]);
 		armaCanhao(armas[6], armas[7]);
+		armaMissil(armas[6], armas[7]);
 		tiroPadrao();
 	}
 
@@ -154,6 +158,13 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 					tiroCanhao[i] = null;
 				}
 
+			}
+			if (missil[i] != null) {
+				missil[i].draw(g);
+				missil[i].update(this);
+				if (missil[i].isForaDaTela()) {
+					missil[i] = null;
+				}
 			}
 			if (tiros[i] != null) {
 				tiros[i].draw(g);
@@ -237,6 +248,30 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 
 		}
 
+	}
+
+	public void armaMissil(SuperArma armaDeBaixo, SuperArma armaDeCima) {
+		if (armas[6] != null && armaDeBaixo != null && armaDeBaixo.getModeloDaArma() == 3 && armaBaixo
+				&& atirandoCima == false && fimDaMunicao == false) {
+			for (int i = 0; i < missil.length; i++) {
+				if (missil[i] == null) {
+					atirandoMissil = true;
+					TiroArmaMissil t = new TiroArmaMissil(getPosX(), getPosY(), 12);
+					missil[i] = t;
+					break;
+				}
+			}
+		} else if (armas[7] != null && armaDeCima != null && armaDeCima.getModeloDaArma() == 3 && armaCima
+				&& atirandoCima == true && fimDaMunicaoCima == false) {
+			for (int i = 0; i < missil.length; i++) {
+				if (missil[i] == null) {
+					atirandoMissil = true;
+					TiroArmaMissil t = new TiroArmaMissil(getPosX(), getPosY(), 12);
+					missil[i] = t;
+					break;
+				}
+			}
+		}
 	}
 
 	public void armaCanhao(SuperArma armaDeBaixo, SuperArma armaDeCima) {
@@ -616,6 +651,22 @@ public class Nave extends ObjetoGraficoMovelComAnimacao {
 
 	public void setInvencivel(boolean invencivel) {
 		this.invencivel = invencivel;
+	}
+
+	public TiroArmaMissil[] getMissil() {
+		return missil;
+	}
+
+	public void setMissil(TiroArmaMissil[] missil) {
+		this.missil = missil;
+	}
+
+	public boolean isAtirandoMissil() {
+		return atirandoMissil;
+	}
+
+	public void setAtirandoMissil(boolean atirandoMissil) {
+		this.atirandoMissil = atirandoMissil;
 	}
 
 }

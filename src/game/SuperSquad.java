@@ -57,7 +57,8 @@ public abstract class SuperSquad extends InimigoComum {
 		}
 	}
 
-	public void destruicaoSquad(SuperTiro[] tiro, Nave nave, TiroArmaLaser armaLaser, TiroCanhao[] canhao, int sorte) {
+	public void destruicaoSquad(SuperTiro[] tiro, Nave nave, TiroArmaLaser armaLaser, TiroCanhao[] canhao, int sorte,
+			TiroArmaMissil[] missil) {
 		if (verbot != null) {
 			for (int i = 0; i < verbot.length; i++) {
 				if (verbot[i] != null) {
@@ -104,6 +105,21 @@ public abstract class SuperSquad extends InimigoComum {
 							}
 						}
 					}
+					if (missil != null) {
+						// TODO
+						if (verbot[i] != null && verbot[i].rectangleTiro(missil)) {
+							if (verbot[i].getHp() <= 0) {
+								if (isDropouArma(sorte)) {
+									nave.setArmas(sorteandoArma(verbot[i]));
+								}
+								verbot[i] = null;
+								control -= 1;
+								if (control == 0) {
+									controle = true;
+								}
+							}
+						}
+					}
 				}
 			}
 		}
@@ -129,7 +145,7 @@ public abstract class SuperSquad extends InimigoComum {
 			arma = new ArmaLaser(inimigo.getPosX(), inimigo.getPosY());
 			return arma;
 		} else if (controle == 2) {
-			arma = new ArmaCanhao(inimigo.getPosX(), inimigo.getPosY());
+			arma = new ArmaMissil(inimigo.getPosX(), inimigo.getPosY());
 			return arma;
 		}
 		return null;

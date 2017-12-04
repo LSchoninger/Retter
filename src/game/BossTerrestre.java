@@ -16,7 +16,7 @@ public class BossTerrestre extends SuperInimigo {
 
 	}
 
-	public void update(TiroCanhao[] tiroCanhao, TiroArmaLaser tiroLaser, SuperTiro[] tiros, Nave nave, Graphics2D g) {
+	public void update(TiroCanhao[] tiroCanhao, TiroArmaLaser tiroLaser, SuperTiro[] tiros, Nave nave, Graphics2D g,TiroArmaMissil[] missil) {
 		Random rdm = new Random();
 		if (getPosX() >= 0 && frente == false) {
 			setPosX(getPosX() - getVelX());
@@ -43,6 +43,9 @@ public class BossTerrestre extends SuperInimigo {
 		if (tiros != null) {
 			rectangleTiro(tiros);
 		}
+		if(missil!=null){
+			rectangleTiro(missil);
+		}
 		rectangleNave(nave);
 		// atirando();
 		// tiros[rdm.nextInt(7)] = null;
@@ -61,9 +64,10 @@ public class BossTerrestre extends SuperInimigo {
 				this.tiros[i].update();
 				this.tiros[i].draw(g);
 				if(this.tiros[i].RectangleNave(nave)){
-					tiros[i]=null;
+					nave.sethP(nave.gethP()-450);
+					this.tiros[i]=null;
 				}
-				if(this.tiros[i].getPosY()<=0){
+				if(this.tiros[i]!=null&&this.tiros[i].getPosY()<=0){
 					this.tiros[i]=null;
 				}
 			}

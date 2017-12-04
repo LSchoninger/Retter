@@ -39,9 +39,6 @@ public class SuperArma extends ObjetoGraficoMovelComAnimacao {
 		} else if (nave.isArmaCima() && naveCima == true) {
 			setPosX(nave.getPosX() + nave.getWidth() / 2);
 			setPosY(nave.getPosY() - 15);
-			if (modeloDaArma == 3) {
-				setPosY(nave.getPosY() - 50);
-			}
 		}
 	}
 

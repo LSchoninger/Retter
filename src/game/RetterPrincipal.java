@@ -95,6 +95,7 @@ public class RetterPrincipal extends Game {
 	public void gameLoop() {
 		if (menu.isVisivel()) {
 			menu.draw(getGraphics2D());
+			
 		}
 
 		if (creditos.isVisivel()) {
@@ -331,7 +332,7 @@ public class RetterPrincipal extends Game {
 		if (nave != null) {
 			if (esquadraoUm != null) {
 				esquadraoUm.draw(getGraphics2D(), 400, 400);
-				esquadraoUm.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2);
+				esquadraoUm.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2,nave.getMissil());
 				esquadraoUm.update(20, 100, nave);
 				if (esquadraoUm.isControle() == true) {
 					esquadraoUm = null;
@@ -339,7 +340,7 @@ public class RetterPrincipal extends Game {
 			}
 			if (esquadraoDois != null && esquadraoUm == null) {
 				esquadraoDois.draw(getGraphics2D(), 400, 400);
-				esquadraoDois.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2);
+				esquadraoDois.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2,nave.getMissil());
 				esquadraoDois.update(22, 150, nave);
 				if (esquadraoDois.isControle() == true) {
 					esquadraoDois = null;
@@ -347,7 +348,7 @@ public class RetterPrincipal extends Game {
 			}
 			if (esquadraoTres != null && esquadraoDois == null) {
 				esquadraoTres.draw(getGraphics2D(), 400, 400);
-				esquadraoTres.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2);
+				esquadraoTres.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2,nave.getMissil());
 				esquadraoTres.update(25, 200, nave);
 				if (esquadraoTres.isControle() == true) {
 					esquadraoTres = null;
@@ -355,7 +356,7 @@ public class RetterPrincipal extends Game {
 			}
 			if (boss1 != null&&esquadraoTres==null) {
 				boss1.draw(getGraphics2D());
-				boss1.update(nave.getTiroCanhao(), nave.getTiroArmaLaser(), nave.getTiros(), nave, getGraphics2D());
+				boss1.update(nave.getTiroCanhao(), nave.getTiroArmaLaser(), nave.getTiros(), nave, getGraphics2D(),nave.getMissil());
 				if (boss1.getHp() <= 0) {
 					boss1 = null;
 				}
@@ -363,7 +364,7 @@ public class RetterPrincipal extends Game {
 			if (esquadraoQuatro != null && boss1 == null) {
 				esquadraoQuatro.draw(getGraphics2D(), 400, 400);
 				esquadraoQuatro.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(),
-						2);
+						2,nave.getMissil());
 				esquadraoQuatro.update(30, 250, nave);
 				if (esquadraoQuatro.isControle() == true) {
 					esquadraoQuatro = null;
@@ -371,7 +372,7 @@ public class RetterPrincipal extends Game {
 			}
 			if (esquadraoCinco != null && esquadraoQuatro == null) {
 				esquadraoCinco.draw(getGraphics2D(), 400, 400);
-				esquadraoCinco.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2);
+				esquadraoCinco.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2,nave.getMissil());
 				esquadraoCinco.update(32, 250, nave);
 				if (esquadraoCinco.isControle() == true) {
 					esquadraoCinco = null;
@@ -379,7 +380,7 @@ public class RetterPrincipal extends Game {
 			}
 			if (esquadraoSeis != null && esquadraoCinco == null) {
 				esquadraoSeis.draw(getGraphics2D(), 400, 400);
-				esquadraoSeis.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2);
+				esquadraoSeis.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2,nave.getMissil());
 				esquadraoSeis.update(35, 250, nave);
 				if (esquadraoSeis.isControle() == true) {
 					esquadraoSeis = null;
@@ -390,12 +391,12 @@ public class RetterPrincipal extends Game {
 
 				if (boss2.isAtirando()) {
 					boss2.megaTiro(getGraphics2D(), nave.getTiroCanhao(), nave.getTiroArmaLaser(), nave.getTiros(),
-							nave);
+							nave,nave.getMissil());
 					if (boss2.getHp() <= 0) {
 						boss2 = null;
 					}
 				} else {
-					boss2.update(nave.getTiroCanhao(), nave.getTiroArmaLaser(), nave.getTiros(), nave, getGraphics2D());
+					boss2.update(nave.getTiroCanhao(), nave.getTiroArmaLaser(), nave.getTiros(), nave, getGraphics2D(),nave.getMissil());
 					if (boss2.getHp() <= 0) {
 						boss2 = null;
 					}

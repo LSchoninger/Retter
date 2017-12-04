@@ -16,7 +16,7 @@ public class BossFinal extends SuperInimigo {
 		superTiro = new BossTiroMega[2];
 	}
 
-	public void update(TiroCanhao[] tiroCanhao, TiroArmaLaser tiroLaser, SuperTiro[] tiros, Nave nave, Graphics2D g) {
+	public void update(TiroCanhao[] tiroCanhao, TiroArmaLaser tiroLaser, SuperTiro[] tiros, Nave nave, Graphics2D g,TiroArmaMissil[] missil) {
 		if (getPosX() + getWidth() >= Utils.getInstance().getWidth()) {
 			setPosX(getPosX() - getVelX());
 		}
@@ -42,6 +42,9 @@ public class BossFinal extends SuperInimigo {
 		if (tiros != null) {
 			rectangleTiro(tiros);
 		}
+		if(missil!=null){
+			rectangleTiro(missil);
+		}
 		rectangleNave(nave);
 		if (tiro == null) {
 			tiro = new TiroBossComum(getPosX(), getPosY() + 5, 23, 300);
@@ -57,7 +60,7 @@ public class BossFinal extends SuperInimigo {
 		}
 	}
 
-	public void megaTiro(Graphics2D g, TiroCanhao[] tiroCanhao, TiroArmaLaser tiroLaser, SuperTiro[] tiros, Nave nave) {
+	public void megaTiro(Graphics2D g, TiroCanhao[] tiroCanhao, TiroArmaLaser tiroLaser, SuperTiro[] tiros, Nave nave,TiroArmaMissil[] missil) {
 		tiro = null;
 		for (int i = 0; i < superTiro.length; i++) {
 			setFrameY(1);
@@ -77,6 +80,9 @@ public class BossFinal extends SuperInimigo {
 			}
 			if (tiros != null) {
 				rectangleTiro(tiros);
+			}
+			if(missil!=null){
+				rectangleTiro(missil);
 			}
 			rectangleNave(nave);
 		}
