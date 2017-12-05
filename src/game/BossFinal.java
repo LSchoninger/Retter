@@ -34,7 +34,7 @@ public class BossFinal extends SuperInimigo {
 		}
 		randomSuperTiro();
 		if (tiroCanhao != null) {
-			rectangleArmaCanhao(tiroCanhao);
+			rectangleTiro(tiroCanhao);
 		}
 		if (tiroLaser != null) {
 			rectangleArmaLaser(tiroLaser);
@@ -73,7 +73,7 @@ public class BossFinal extends SuperInimigo {
 				superTiro[0].setPosX(200);
 			}
 			if (tiroCanhao != null) {
-				rectangleArmaCanhao(tiroCanhao);
+				rectangleTiro(tiroCanhao);
 			}
 			if (tiroLaser != null) {
 				rectangleArmaLaser(tiroLaser);

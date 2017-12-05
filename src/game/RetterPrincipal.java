@@ -7,6 +7,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.Serializable;
 
 import br.senai.sc.engine.Game;
 import br.senai.sc.engine.Utils;
@@ -37,6 +38,8 @@ public class RetterPrincipal extends Game {
 	private MiddleGround[] groundDoMeio;
 	private Image barraTopo;
 	private BarraDeVidas vidas;
+	private SuperTiro[] fire;
+	private Teste save;
 
 	public RetterPrincipal() {
 		super("Retter", 1024, 768);
@@ -68,13 +71,14 @@ public class RetterPrincipal extends Game {
 		lifeBar = new LifeBar();
 		vidas = new BarraDeVidas();
 		menu = new Menu();
+		save = new Teste();
 		creditos = new Creditos();
 		cutscenes01 = new Cutscene(Color.MAGENTA);
 		ranking = new Ranking();
 		selecaoDeNaves = new SelecaoNave();
 		gameOver = new GameOver();
 		jogo = new Jogo();
-
+		fire = new SuperTiro[2];
 		esquadraoUm = new SquadOne(300);
 		esquadraoUm.squadOne();
 		esquadraoDois = new SquadTwo(500);
@@ -95,7 +99,7 @@ public class RetterPrincipal extends Game {
 	public void gameLoop() {
 		if (menu.isVisivel()) {
 			menu.draw(getGraphics2D());
-			
+
 		}
 
 		if (creditos.isVisivel()) {
@@ -120,10 +124,13 @@ public class RetterPrincipal extends Game {
 			desenharString("Seleção de Naves", 300, 300, Color.black, 20);
 			if (selecaoDeNaves.getEscolhaSuaNave() == 0) {
 				nave = new Nave(3, 700, "images/FLAKSHEET1.png");
+				nave.setEscolha(0);
 			} else if (selecaoDeNaves.getEscolhaSuaNave() == 1) {
 				nave = new Nave(3, 1000, "images/FLAKSHEET2.png");
+				nave.setEscolha(1);
 			} else if (selecaoDeNaves.getEscolhaSuaNave() == 2) {
 				nave = new Nave(3, 900, "images/FLAKSHEET3.png");
+				nave.setEscolha(2);
 			}
 
 		}
@@ -236,6 +243,22 @@ public class RetterPrincipal extends Game {
 		public void keyPressed(KeyEvent e) {
 			if (nave != null) {
 				if (jogo.isVisivel()) {
+					if (e.getKeyCode() == KeyEvent.VK_Y) {
+						try {
+							save.serializarPlayer(nave);
+							System.out.println("SALVADO COM SUCESSO BIRL");
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					}
+					if (e.getKeyCode() == KeyEvent.VK_J) {
+						try {
+						nave =save.deserializarPlayer(nave);
+						System.out.println("deu certo");
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					}
 					if (e.getKeyCode() == KeyEvent.VK_P) {
 						if (pause.isVisivel() == false) {
 							jogo.setVisivel(false);
@@ -330,9 +353,11 @@ public class RetterPrincipal extends Game {
 
 	public void objetosDoJogo() {
 		if (nave != null) {
+
 			if (esquadraoUm != null) {
 				esquadraoUm.draw(getGraphics2D(), 400, 400);
-				esquadraoUm.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2,nave.getMissil());
+				esquadraoUm.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2,
+						nave.getMissil());
 				esquadraoUm.update(20, 100, nave);
 				if (esquadraoUm.isControle() == true) {
 					esquadraoUm = null;
@@ -340,7 +365,8 @@ public class RetterPrincipal extends Game {
 			}
 			if (esquadraoDois != null && esquadraoUm == null) {
 				esquadraoDois.draw(getGraphics2D(), 400, 400);
-				esquadraoDois.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2,nave.getMissil());
+				esquadraoDois.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2,
+						nave.getMissil());
 				esquadraoDois.update(22, 150, nave);
 				if (esquadraoDois.isControle() == true) {
 					esquadraoDois = null;
@@ -348,23 +374,25 @@ public class RetterPrincipal extends Game {
 			}
 			if (esquadraoTres != null && esquadraoDois == null) {
 				esquadraoTres.draw(getGraphics2D(), 400, 400);
-				esquadraoTres.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2,nave.getMissil());
+				esquadraoTres.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2,
+						nave.getMissil());
 				esquadraoTres.update(25, 200, nave);
 				if (esquadraoTres.isControle() == true) {
 					esquadraoTres = null;
 				}
 			}
-			if (boss1 != null&&esquadraoTres==null) {
+			if (boss1 != null && esquadraoTres == null) {
 				boss1.draw(getGraphics2D());
-				boss1.update(nave.getTiroCanhao(), nave.getTiroArmaLaser(), nave.getTiros(), nave, getGraphics2D(),nave.getMissil());
+				boss1.update(nave.getTiroCanhao(), nave.getTiroArmaLaser(), nave.getTiros(), nave, getGraphics2D(),
+						nave.getMissil());
 				if (boss1.getHp() <= 0) {
 					boss1 = null;
 				}
 			}
 			if (esquadraoQuatro != null && boss1 == null) {
 				esquadraoQuatro.draw(getGraphics2D(), 400, 400);
-				esquadraoQuatro.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(),
-						2,nave.getMissil());
+				esquadraoQuatro.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2,
+						nave.getMissil());
 				esquadraoQuatro.update(30, 250, nave);
 				if (esquadraoQuatro.isControle() == true) {
 					esquadraoQuatro = null;
@@ -372,7 +400,8 @@ public class RetterPrincipal extends Game {
 			}
 			if (esquadraoCinco != null && esquadraoQuatro == null) {
 				esquadraoCinco.draw(getGraphics2D(), 400, 400);
-				esquadraoCinco.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2,nave.getMissil());
+				esquadraoCinco.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2,
+						nave.getMissil());
 				esquadraoCinco.update(32, 250, nave);
 				if (esquadraoCinco.isControle() == true) {
 					esquadraoCinco = null;
@@ -380,7 +409,8 @@ public class RetterPrincipal extends Game {
 			}
 			if (esquadraoSeis != null && esquadraoCinco == null) {
 				esquadraoSeis.draw(getGraphics2D(), 400, 400);
-				esquadraoSeis.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2,nave.getMissil());
+				esquadraoSeis.destruicaoSquad(nave.getTiros(), nave, nave.getTiroArmaLaser(), nave.getTiroCanhao(), 2,
+						nave.getMissil());
 				esquadraoSeis.update(35, 250, nave);
 				if (esquadraoSeis.isControle() == true) {
 					esquadraoSeis = null;
@@ -391,12 +421,13 @@ public class RetterPrincipal extends Game {
 
 				if (boss2.isAtirando()) {
 					boss2.megaTiro(getGraphics2D(), nave.getTiroCanhao(), nave.getTiroArmaLaser(), nave.getTiros(),
-							nave,nave.getMissil());
+							nave, nave.getMissil());
 					if (boss2.getHp() <= 0) {
 						boss2 = null;
 					}
 				} else {
-					boss2.update(nave.getTiroCanhao(), nave.getTiroArmaLaser(), nave.getTiros(), nave, getGraphics2D(),nave.getMissil());
+					boss2.update(nave.getTiroCanhao(), nave.getTiroArmaLaser(), nave.getTiros(), nave, getGraphics2D(),
+							nave.getMissil());
 					if (boss2.getHp() <= 0) {
 						boss2 = null;
 					}
@@ -420,31 +451,5 @@ public class RetterPrincipal extends Game {
 			}
 		}
 	}
-
-	// public void desruirArmas() {
-	// if (armaLaser[1] != null) {
-	// if (nave.getVariavelMunicaoLaser() <= 1 && armaLaser[1].isNaveCima() ==
-	// false) {
-	// armaLaser[1] = null;
-	// }
-	// } else if (armaLaser[0] != null) {
-	// if (nave.getVariavelMunicaoLaser() <= 1 && armaLaser[0].isNaveCima() ==
-	// false) {
-	// armaLaser[0] = null;
-	// }
-	// }
-	// if (armaLaser[1] != null) {
-	// if (nave.getVariavelMunicaoLaser() <= 1 && armaLaser[1].isNaveCima() ==
-	// true) {
-	// armaLaser[1] = null;
-	// }
-	// }
-	// if (armaLaser[0] != null) {
-	// if (nave.getVariavelMunicaoLaser() <= 1 && armaLaser[0].isNaveCima() ==
-	// true) {
-	// armaLaser[0] = null;
-	// }
-	// }
-	// }
 
 }

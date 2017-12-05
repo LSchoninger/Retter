@@ -11,7 +11,7 @@ public class Cutscene extends TelaEstatica {
 		setBotoes(new Botao[1]);
 		getBotoes()[0] = new Botao(Utils.getInstance().getWidth()-200,
 				(Utils.getInstance().getHeight() / 2 - 86) + (Utils.getInstance().getHeight() / 3), 173, 171,
-				"images/Proximo.png");
+				"images/SETADIEREITA.png");
 
 	}
 

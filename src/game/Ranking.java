@@ -10,11 +10,11 @@ public class Ranking extends TelaEstatica {
 		super(Color.GREEN, false);
 		setBotoes(new Botao[2]);
 		getBotoes()[0] = new Botao(50,
-				(Utils.getInstance().getHeight() / 2 - 86) + (Utils.getInstance().getHeight() / 3), 293, 107,
-				"images/Retornar.png");
+				(Utils.getInstance().getHeight() / 2 - 86) + (Utils.getInstance().getHeight() / 3), 216, 72,
+				"images/RESTART.png");
 		getBotoes()[1] = new Botao(Utils.getInstance().getWidth() - 200,
-				(Utils.getInstance().getHeight() / 2 - 86) + (Utils.getInstance().getHeight() / 3), 173, 173,
-				"images/Proximo.png");
+				(Utils.getInstance().getHeight() / 2 - 86) + (Utils.getInstance().getHeight() / 3), 180, 170,
+				"images/SETADIEREITA.png");
 
 	}
 

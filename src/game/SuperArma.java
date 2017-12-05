@@ -43,7 +43,7 @@ public class SuperArma extends ObjetoGraficoMovelComAnimacao {
 	}
 
 	public void update() {
-		setPosX(getPosX() - 1);
+		setPosX(getPosX() - 5);
 	}
 
 	public boolean isPegou() {

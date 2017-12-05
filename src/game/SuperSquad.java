@@ -56,6 +56,15 @@ public abstract class SuperSquad extends InimigoComum {
 			}
 		}
 	}
+	public void destruicaoSquad2(){
+		if(verbot!=null){
+			for (int i = 0; i < verbot.length; i++) {
+				if(verbot[i]!=null){
+					
+				}
+			}
+		}
+	}
 
 	public void destruicaoSquad(SuperTiro[] tiro, Nave nave, TiroArmaLaser armaLaser, TiroCanhao[] canhao, int sorte,
 			TiroArmaMissil[] missil) {
@@ -67,7 +76,7 @@ public abstract class SuperSquad extends InimigoComum {
 						if (verbot[i] != null && verbot[i].rectangleArmaLaser(armaLaser)) {
 							if (verbot[i].getHp() <= 0) {
 								if (isDropouArma(sorte)) {
-									nave.setArmas(sorteandoArma(verbot[i]));
+									nave.setArmaso(sorteandoArma(verbot[i]));
 								}
 								verbot[i] = null;
 								control -= 1;
@@ -81,7 +90,7 @@ public abstract class SuperSquad extends InimigoComum {
 						if (verbot[i] != null && verbot[i].rectangleTiro(tiro)) {
 							if (verbot[i].getHp() <= 0) {
 								if (isDropouArma(sorte)) {
-									nave.setArmas(sorteandoArma(verbot[i]));
+									nave.setArmaso(sorteandoArma(verbot[i]));
 								}
 								verbot[i] = null;
 								control -= 1;
@@ -92,10 +101,10 @@ public abstract class SuperSquad extends InimigoComum {
 						}
 					}
 					if (canhao != null) {
-						if (verbot[i] != null && verbot[i].rectangleArmaCanhao(canhao)) {
+						if (verbot[i] != null && verbot[i].rectangleTiro(canhao)) {
 							if (verbot[i].getHp() <= 0) {
 								if (isDropouArma(sorte)) {
-									nave.setArmas(sorteandoArma(verbot[i]));
+									nave.setArmaso(sorteandoArma(verbot[i]));
 								}
 								verbot[i] = null;
 								control -= 1;
@@ -110,7 +119,7 @@ public abstract class SuperSquad extends InimigoComum {
 						if (verbot[i] != null && verbot[i].rectangleTiro(missil)) {
 							if (verbot[i].getHp() <= 0) {
 								if (isDropouArma(sorte)) {
-									nave.setArmas(sorteandoArma(verbot[i]));
+									nave.setArmaso(sorteandoArma(verbot[i]));
 								}
 								verbot[i] = null;
 								control -= 1;

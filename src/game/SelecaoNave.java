@@ -15,13 +15,13 @@ public class SelecaoNave extends TelaEstatica {
 		escolhaSuaNave = 0;
 		setBotoes(new Botao[3]);
 		getBotoes()[0] = new Botao(50,
-				(Utils.getInstance().getHeight() / 2 - 86) + (Utils.getInstance().getHeight() / 6), 173, 173,
-				"images/ProximoRetornando.png");
+				(Utils.getInstance().getHeight() / 2 - 86) + (Utils.getInstance().getHeight() / 6), 180, 170,
+				"images/SETAESQUERDA.png");
 		getBotoes()[1] = new Botao(Utils.getInstance().getWidth() - 200,
-				(Utils.getInstance().getHeight() / 2 - 86) + (Utils.getInstance().getHeight() / 6), 173, 173,
-				"images/Proximo.png");
+				(Utils.getInstance().getHeight() / 2 - 86) + (Utils.getInstance().getHeight() / 6), 180, 170,
+				"images/SETADIEREITA.png");
 		getBotoes()[2] = new Botao(Utils.getInstance().getWidth() - 350, Utils.getInstance().getHeight() - 100, 293,
-				107, "images/Start.png");
+				107, "images/INICIAR.png");
 		naves = new Image[3];
 		naves[0] = Utils.getInstance().loadImage("images/Flak1.png");
 		naves[1] = Utils.getInstance().loadImage("images/Flak2.png");

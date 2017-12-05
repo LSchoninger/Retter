@@ -35,7 +35,7 @@ public class BossTerrestre extends SuperInimigo {
 			setFrameX(0);
 		}
 		if (tiroCanhao != null) {
-			rectangleArmaCanhao(tiroCanhao);
+			rectangleTiro(tiroCanhao);
 		}
 		if (tiroLaser != null) {
 			rectangleArmaLaser(tiroLaser);

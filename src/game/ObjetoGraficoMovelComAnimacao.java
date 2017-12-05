@@ -1,14 +1,19 @@
 package game;
 
 import java.awt.Graphics2D;
+import java.io.Serializable;
 
-public abstract class ObjetoGraficoMovelComAnimacao extends ObjetoGraficoMovel {
-	
-	//Possui mais os atributos de animação
-	private int frameX;
-	private int frameY;
-	private int cols;
-	private int rows;
+public abstract class ObjetoGraficoMovelComAnimacao extends ObjetoGraficoMovel implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2425464025874782507L;
+	// Possui mais os atributos de animação
+	protected int frameX;
+	protected int frameY;
+	protected int cols;
+	protected int rows;
 
 	public ObjetoGraficoMovelComAnimacao(int posX, int posY, int width, int height, String fileName, int velX, int velY,
 			int frameX, int frameY, int cols, int rows) {
@@ -17,6 +22,10 @@ public abstract class ObjetoGraficoMovelComAnimacao extends ObjetoGraficoMovel {
 		this.frameY = frameY;
 		this.cols = cols;
 		this.rows = rows;
+	}
+
+	public ObjetoGraficoMovelComAnimacao() {
+		super();
 	}
 
 	public int getFrameX() {
@@ -50,16 +59,17 @@ public abstract class ObjetoGraficoMovelComAnimacao extends ObjetoGraficoMovel {
 	public void setRows(int rows) {
 		this.rows = rows;
 	}
-	
+
 	@Override
 	public void draw(Graphics2D g) {
-		g.drawImage(getSprite(), getPosX(), getPosY(), getPosX()+getWidth(), getPosY()+getHeight(),
-				frameX*getWidth(), frameY*getHeight(), frameX*getWidth()+getWidth(), frameY*getHeight()+getHeight(), null);
+		g.drawImage(getSprite(), getPosX(), getPosY(), getPosX() + getWidth(), getPosY() + getHeight(),
+				frameX * getWidth(), frameY * getHeight(), frameX * getWidth() + getWidth(),
+				frameY * getHeight() + getHeight(), null);
 	}
-	
+
 	@Override
 	public void update() {
-		
+
 		if (frameX >= cols) {
 			frameX = 0;
 		}
