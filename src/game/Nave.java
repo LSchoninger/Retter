@@ -6,8 +6,6 @@ import java.io.Serializable;
 
 import br.senai.sc.engine.Utils;
 
-
-
 public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable {
 
 	/**
@@ -179,13 +177,24 @@ public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable 
 				&& atirandoCima == false && fimDaMunicao == false) {
 			tiroArmaLaser = new TiroArmaLaser(variavelMunicaoLaser);
 			atirandoLaser = true;
-			variavelMunicaoLaser -= 1;
+			for (int i = 0; i < armaso[2].getMunicao(); i++) {
+				armaso[2].setMunicao(armaso[2].getMunicao() - 1);
+			}
+			if (armaso[2].getMunicao() <= 0) {
+				armaso[2] = null;
+				armaDeBaixo =null;
+				armaBaixo=false;
+			}
 		} else if (armaso[3] != null && armaDeCima != null && armaDeCima.getModeloDaArma() == 1 && armaCima
 				&& atirandoCima == true && fimDaMunicaoCima == false) {
 			tiroArmaLaser = new TiroArmaLaser(variavelMunicaoCimaLaser);
 			atirandoLaser = true;
-			variavelMunicaoCimaLaser -= 1;
-
+			armaso[3].setMunicao(armaso[3].getMunicao() - 1);
+			if (armaso[3].getMunicao() <= 0) {
+				armaso[3] = null;
+				armaDeCima=null;
+				armaCima=false;
+			}
 		}
 
 	}
@@ -198,6 +207,12 @@ public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable 
 					atirandoMissil = true;
 					TiroArmaMissil t = new TiroArmaMissil(getPosX(), getPosY(), 12);
 					missil[i] = t;
+					armaso[2].setMunicao(armaso[2].getMunicao() - 1);
+					if (armaso[2].getMunicao() <= 0) {
+						armaso[2] = null;
+						armaDeBaixo =null;
+						armaBaixo=false;
+					}
 					break;
 				}
 			}
@@ -208,6 +223,12 @@ public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable 
 					atirandoMissil = true;
 					TiroArmaMissil t = new TiroArmaMissil(getPosX(), getPosY(), 12);
 					missil[i] = t;
+					armaso[3].setMunicao(armaso[3].getMunicao() - 1);
+					if (armaso[3].getMunicao() <= 0) {
+						armaso[3] = null;
+						armaDeCima=null;
+						armaCima=false;
+					}
 					break;
 				}
 			}
@@ -222,6 +243,12 @@ public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable 
 					atirandoCanhao = true;
 					TiroCanhao t = new TiroCanhao(12, getPosX(), getPosY());
 					tiroCanhao[i] = t;
+					armaso[2].setMunicao(armaso[2].getMunicao() - 1);
+					if (armaso[2].getMunicao() <= 0) {
+						armaso[2] = null;
+						armaDeBaixo =null;
+						armaBaixo=false;
+					}
 					break;
 				}
 			}
@@ -232,6 +259,12 @@ public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable 
 					atirandoCanhao = true;
 					TiroCanhao t = new TiroCanhao(12, getPosX(), getPosY());
 					tiroCanhao[i] = t;
+					armaso[3].setMunicao(armaso[3].getMunicao() - 1);
+					if (armaso[3].getMunicao() <= 0) {
+						armaso[3] = null;
+						armaDeCima=null;
+						armaCima=false;
+					}
 					break;
 				}
 			}

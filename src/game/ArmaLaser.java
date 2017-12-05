@@ -6,7 +6,7 @@ public class ArmaLaser extends SuperArma {
 
 	public ArmaLaser(int posX, int posY) {
 		//modelo de arma = 1
-		super(posX, posY, 40, 15, "images/Arma Laser.png", 15, 15, 0, 0, 1, 2,1);
+		super(posX, posY, 40, 15, "images/Arma Laser.png", 15, 15, 0, 0, 1, 2,1,4);
 	}
 
 	public boolean isArmaLaserBaixo() {

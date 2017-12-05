@@ -5,11 +5,13 @@ public class SuperArma extends ObjetoGraficoMovelComAnimacao {
 	private boolean controle;
 	private boolean naveCima;
 	private int modeloDaArma;
+	private int municao;
 
 	public SuperArma(int posX, int posY, int width, int height, String fileName, int velX, int velY, int frameX,
-			int frameY, int cols, int rows, int modeloDaArma) {
+			int frameY, int cols, int rows, int modeloDaArma,int municao) {
 		super(posX, posY, width, height, fileName, 2, 2, frameX, frameY, cols, rows);
 		this.modeloDaArma = modeloDaArma;
+		this.municao=municao;
 	}
 
 	public boolean pegar(Nave nave) {
@@ -80,5 +82,13 @@ public class SuperArma extends ObjetoGraficoMovelComAnimacao {
 
 	public void pegandoArmas() {
 
+	}
+
+	public int getMunicao() {
+		return municao;
+	}
+
+	public void setMunicao(int municao) {
+		this.municao = municao;
 	}
 }
