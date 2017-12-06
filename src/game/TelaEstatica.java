@@ -66,8 +66,7 @@ public class TelaEstatica {
 	//Método para desenhar IBAGEM, EU QUERO IBAGENS
 	
 	public void drawImage(Graphics2D g){
-		g.drawImage(imagemDeFundo, Utils.getInstance().getWidth(), Utils.getInstance().getHeight(), null);
-		
+		g.drawImage(imagemDeFundo, 0, 0, Utils.getInstance().getWidth(), Utils.getInstance().getHeight(), null);
 		if (botoes != null) {
 			for (Botao b : botoes) {
 				b.draw(g);

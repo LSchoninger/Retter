@@ -26,16 +26,15 @@ public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable 
 	private boolean invencivel;
 	private boolean fimDaMunicao;
 	private boolean fimDaMunicaoCima;
-	private int variavelMunicaoLaser;
-	private int variavelMunicaoCimaLaser;
 	private int hP;
 	private int hPInicial;
 	private int vidas;
+	private long pontuacao;
 	private TiroArmaLaser tiroArmaLaser;
 	private TiroPadrao[] tiros;
 	private TiroArmaMissil[] missil;
 	private int danoTiroPadrao;
-	private SuperArma[] armaso;
+	private SuperArma[] armas;
 	private TiroCanhao[] tiroCanhao;
 	private int start;
 	private int escolha;
@@ -51,11 +50,9 @@ public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable 
 		this.missil = new TiroArmaMissil[7];
 		this.tiros = new TiroPadrao[7];
 		tiroCanhao = new TiroCanhao[1000];
-		variavelMunicaoLaser = 7;
-		variavelMunicaoCimaLaser = 7;
 		this.danoTiroPadrao = 100;
 		// Super arma : arma[0]= baixo/arma[1]=cima
-		armaso = new SuperArma[4];
+		armas = new SuperArma[4];
 
 	}
 
@@ -89,9 +86,9 @@ public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable 
 	}
 
 	public void atirar() {
-		armaLaser(armaso[2], armaso[3]);
-		armaCanhao(armaso[2], armaso[3]);
-		armaMissil(armaso[2], armaso[3]);
+		armaLaser(armas[2], armas[3]);
+		armaCanhao(armas[2], armas[3]);
+		armaMissil(armas[2], armas[3]);
 		tiroPadrao();
 	}
 
@@ -125,17 +122,17 @@ public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable 
 			}
 		}
 		super.draw(g);
-		if (armaso[0] != null) {
-			armaso[0].draw(g);
+		if (armas[0] != null) {
+			armas[0].draw(g);
 		}
-		if (armaso[1] != null) {
-			armaso[1].draw(g);
+		if (armas[1] != null) {
+			armas[1].draw(g);
 		}
-		if (armaso[2] != null) {
-			armaso[2].draw(g);
+		if (armas[2] != null) {
+			armas[2].draw(g);
 		}
-		if (armaso[3] != null) {
-			armaso[3].draw(g);
+		if (armas[3] != null) {
+			armas[3].draw(g);
 		}
 	}
 	// terimna aqui
@@ -158,7 +155,7 @@ public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable 
 					tiroArmaLaser = null;
 				}
 			}
-			if (armaCima == true && variavelMunicaoCimaLaser <= 0) {
+			if (armaCima == true) {
 				if (tiroArmaLaser != null) {
 					if (tiroArmaLaser.fimDeMunicao() == true) {
 						fimDaMunicaoCima = true;
@@ -173,25 +170,25 @@ public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable 
 
 	public void armaLaser(SuperArma armaDeBaixo, SuperArma armaDeCima) {
 
-		if (armaso[2] != null && armaDeBaixo != null && armaDeBaixo.getModeloDaArma() == 1 && armaBaixo
+		if (armas[2] != null && armaDeBaixo != null && armaDeBaixo.getModeloDaArma() == 1 && armaBaixo
 				&& atirandoCima == false && fimDaMunicao == false) {
-			tiroArmaLaser = new TiroArmaLaser(variavelMunicaoLaser);
+			tiroArmaLaser = new TiroArmaLaser();
 			atirandoLaser = true;
-			for (int i = 0; i < armaso[2].getMunicao(); i++) {
-				armaso[2].setMunicao(armaso[2].getMunicao() - 1);
+			for (int i = 0; i < armas[2].getMunicao(); i++) {
+				armas[2].setMunicao(armas[2].getMunicao() - 1);
 			}
-			if (armaso[2].getMunicao() <= 0) {
-				armaso[2] = null;
+			if (armas[2].getMunicao() <= 0) {
+				armas[2] = null;
 				armaDeBaixo =null;
 				armaBaixo=false;
 			}
-		} else if (armaso[3] != null && armaDeCima != null && armaDeCima.getModeloDaArma() == 1 && armaCima
+		} else if (armas[3] != null && armaDeCima != null && armaDeCima.getModeloDaArma() == 1 && armaCima
 				&& atirandoCima == true && fimDaMunicaoCima == false) {
-			tiroArmaLaser = new TiroArmaLaser(variavelMunicaoCimaLaser);
+			tiroArmaLaser = new TiroArmaLaser();
 			atirandoLaser = true;
-			armaso[3].setMunicao(armaso[3].getMunicao() - 1);
-			if (armaso[3].getMunicao() <= 0) {
-				armaso[3] = null;
+			armas[3].setMunicao(armas[3].getMunicao() - 1);
+			if (armas[3].getMunicao() <= 0) {
+				armas[3] = null;
 				armaDeCima=null;
 				armaCima=false;
 			}
@@ -200,32 +197,32 @@ public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable 
 	}
 
 	public void armaMissil(SuperArma armaDeBaixo, SuperArma armaDeCima) {
-		if (armaso[2] != null && armaDeBaixo != null && armaDeBaixo.getModeloDaArma() == 3 && armaBaixo
+		if (armas[2] != null && armaDeBaixo != null && armaDeBaixo.getModeloDaArma() == 3 && armaBaixo
 				&& atirandoCima == false && fimDaMunicao == false) {
 			for (int i = 0; i < missil.length; i++) {
 				if (missil[i] == null) {
 					atirandoMissil = true;
 					TiroArmaMissil t = new TiroArmaMissil(getPosX(), getPosY(), 12);
 					missil[i] = t;
-					armaso[2].setMunicao(armaso[2].getMunicao() - 1);
-					if (armaso[2].getMunicao() <= 0) {
-						armaso[2] = null;
+					armas[2].setMunicao(armas[2].getMunicao() - 1);
+					if (armas[2].getMunicao() <= 0) {
+						armas[2] = null;
 						armaDeBaixo =null;
 						armaBaixo=false;
 					}
 					break;
 				}
 			}
-		} else if (armaso[3] != null && armaDeCima != null && armaDeCima.getModeloDaArma() == 3 && armaCima
+		} else if (armas[3] != null && armaDeCima != null && armaDeCima.getModeloDaArma() == 3 && armaCima
 				&& atirandoCima == true && fimDaMunicaoCima == false) {
 			for (int i = 0; i < missil.length; i++) {
 				if (missil[i] == null) {
 					atirandoMissil = true;
 					TiroArmaMissil t = new TiroArmaMissil(getPosX(), getPosY(), 12);
 					missil[i] = t;
-					armaso[3].setMunicao(armaso[3].getMunicao() - 1);
-					if (armaso[3].getMunicao() <= 0) {
-						armaso[3] = null;
+					armas[3].setMunicao(armas[3].getMunicao() - 1);
+					if (armas[3].getMunicao() <= 0) {
+						armas[3] = null;
 						armaDeCima=null;
 						armaCima=false;
 					}
@@ -236,32 +233,32 @@ public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable 
 	}
 
 	public void armaCanhao(SuperArma armaDeBaixo, SuperArma armaDeCima) {
-		if (armaso[2] != null && armaDeBaixo != null && armaDeBaixo.getModeloDaArma() == 2 && armaBaixo
+		if (armas[2] != null && armaDeBaixo != null && armaDeBaixo.getModeloDaArma() == 2 && armaBaixo
 				&& atirandoCima == false && fimDaMunicao == false) {
 			for (int i = 0; i < tiroCanhao.length; i++) {
 				if (tiroCanhao[i] == null) {
 					atirandoCanhao = true;
 					TiroCanhao t = new TiroCanhao(12, getPosX(), getPosY());
 					tiroCanhao[i] = t;
-					armaso[2].setMunicao(armaso[2].getMunicao() - 1);
-					if (armaso[2].getMunicao() <= 0) {
-						armaso[2] = null;
+					armas[2].setMunicao(armas[2].getMunicao() - 1);
+					if (armas[2].getMunicao() <= 0) {
+						armas[2] = null;
 						armaDeBaixo =null;
 						armaBaixo=false;
 					}
 					break;
 				}
 			}
-		} else if (armaso[3] != null && armaDeCima != null && armaDeCima.getModeloDaArma() == 2 && armaCima
+		} else if (armas[3] != null && armaDeCima != null && armaDeCima.getModeloDaArma() == 2 && armaCima
 				&& atirandoCima == true && fimDaMunicaoCima == false) {
 			for (int i = 0; i < tiroCanhao.length; i++) {
 				if (tiroCanhao[i] == null) {
 					atirandoCanhao = true;
 					TiroCanhao t = new TiroCanhao(12, getPosX(), getPosY());
 					tiroCanhao[i] = t;
-					armaso[3].setMunicao(armaso[3].getMunicao() - 1);
-					if (armaso[3].getMunicao() <= 0) {
-						armaso[3] = null;
+					armas[3].setMunicao(armas[3].getMunicao() - 1);
+					if (armas[3].getMunicao() <= 0) {
+						armas[3] = null;
 						armaDeCima=null;
 						armaCima=false;
 					}
@@ -284,61 +281,61 @@ public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable 
 	}
 
 	public void pegandoArmas() {
-		if (armaso[0] != null) {
-			if (armaso[0].isPegou() == false) {
-				armaso[0].update();
-				armaso[0].pegar(this);
-				if (armaso[0].getPosX() + armaso[0].getWidth() <= 0) {
-					armaso[0] = null;
+		if (armas[0] != null) {
+			if (armas[0].isPegou() == false) {
+				armas[0].update();
+				armas[0].pegar(this);
+				if (armas[0].getPosX() + armas[0].getWidth() <= 0) {
+					armas[0] = null;
 				}
 
 			}
-			if (armaso[0] != null) {
-				if (armaso[0].isPegou() == true) {
-					armaso[0].update(this);
-					if (armaso[0].isNaveCima() == false) {
-						armaso[2] = armaso[0];
-						armaso[0] = null;
+			if (armas[0] != null) {
+				if (armas[0].isPegou() == true) {
+					armas[0].update(this);
+					if (armas[0].isNaveCima() == false) {
+						armas[2] = armas[0];
+						armas[0] = null;
 
-					} else if (armaso[0].isNaveCima() == true) {
-						armaso[3] = armaso[0];
-						armaso[0] = null;
+					} else if (armas[0].isNaveCima() == true) {
+						armas[3] = armas[0];
+						armas[0] = null;
 
 					}
 				}
 
 			}
 		}
-		if (armaso[1] != null) {
-			if (armaso[1].isPegou() == false) {
-				armaso[1].pegar(this);
-				armaso[1].update();
-				if (armaso[1].getPosX() + armaso[1].getWidth() <= 0) {
-					armaso[1] = null;
+		if (armas[1] != null) {
+			if (armas[1].isPegou() == false) {
+				armas[1].pegar(this);
+				armas[1].update();
+				if (armas[1].getPosX() + armas[1].getWidth() <= 0) {
+					armas[1] = null;
 				}
 
 			}
-			if (armaso[1] != null) {
-				if (armaso[1].isPegou() == true) {
-					armaso[1].update(this);
-					if (armaso[1].isNaveCima() == false) {
-						armaso[2] = armaso[1];
-						armaso[1] = null;
+			if (armas[1] != null) {
+				if (armas[1].isPegou() == true) {
+					armas[1].update(this);
+					if (armas[1].isNaveCima() == false) {
+						armas[2] = armas[1];
+						armas[1] = null;
 
-					} else if (armaso[1].isNaveCima() == true) {
-						armaso[3] = armaso[1];
-						armaso[1] = null;
+					} else if (armas[1].isNaveCima() == true) {
+						armas[3] = armas[1];
+						armas[1] = null;
 					}
 				}
 
 			}
 		}
 
-		if (armaso[2] != null) {
-			armaso[2].update(this);
+		if (armas[2] != null) {
+			armas[2].update(this);
 		}
-		if (armaso[3] != null) {
-			armaso[3].update(this);
+		if (armas[3] != null) {
+			armas[3].update(this);
 		}
 	}
 
@@ -417,7 +414,7 @@ public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable 
 	}
 
 	public void destruirArmas() {
-		for (int j = 0; j < armaso.length; j++) {
+		for (int j = 0; j < armas.length; j++) {
 		}
 
 	}
@@ -551,24 +548,8 @@ public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable 
 		this.atirandoLaser = atirandoLaser;
 	}
 
-	public int getVariavelMunicaoLaser() {
-		return variavelMunicaoLaser;
-	}
-
-	public void setVariavelMunicaoLaser(int variavelMunicao) {
-		this.variavelMunicaoLaser = variavelMunicao;
-	}
-
-	public int getVariavelMunicaoCimaLaser() {
-		return variavelMunicaoCimaLaser;
-	}
-
-	public void setVariavelMunicaoCimaLaser(int variavelMunicaoCimaLaser) {
-		this.variavelMunicaoCimaLaser = variavelMunicaoCimaLaser;
-	}
-
 	public SuperArma[] getArmaso() {
-		return armaso;
+		return armas;
 	}
 
 	public boolean isAtirandoCanhao() {
@@ -589,8 +570,8 @@ public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable 
 
 	public void setArmaso(SuperArma armas) {
 		for (int j = 0; j < 2; j++) {
-			if (this.armaso[j] == null) {
-				this.armaso[j] = armas;
+			if (this.armas[j] == null) {
+				this.armas[j] = armas;
 			}
 		}
 
@@ -626,6 +607,14 @@ public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable 
 
 	public void setAtirandoMissil(boolean atirandoMissil) {
 		this.atirandoMissil = atirandoMissil;
+	}
+
+	public long getPontuacao() {
+		return pontuacao;
+	}
+
+	public void setPontuacao(long pontuacao) {
+		this.pontuacao = pontuacao;
 	}
 
 }

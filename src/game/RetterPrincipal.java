@@ -40,12 +40,12 @@ public class RetterPrincipal extends Game {
 	private BarraDeVidas vidas;
 	private SuperTiro[] fire;
 	private Teste save;
+	private PlaySound music;
 
 	public RetterPrincipal() {
 		super("Retter", 1024, 768);
 		addMouseListener(new MouseInputHandler());
 		addKeyListener(new KeyInputHandler());
-
 	}
 
 	public static void main(String[] args) {
@@ -72,13 +72,13 @@ public class RetterPrincipal extends Game {
 		vidas = new BarraDeVidas();
 		menu = new Menu();
 		save = new Teste();
+		music = new PlaySound("src/game/Flying Foe.wav");
 		creditos = new Creditos();
 		cutscenes01 = new Cutscene(Color.MAGENTA);
 		ranking = new Ranking();
 		selecaoDeNaves = new SelecaoNave();
 		gameOver = new GameOver();
 		jogo = new Jogo();
-		fire = new SuperTiro[2];
 		esquadraoUm = new SquadOne(300);
 		esquadraoUm.squadOne();
 		esquadraoDois = new SquadTwo(500);
@@ -98,7 +98,7 @@ public class RetterPrincipal extends Game {
 	@Override
 	public void gameLoop() {
 		if (menu.isVisivel()) {
-			menu.draw(getGraphics2D());
+			menu.drawImage(getGraphics2D());
 
 		}
 
@@ -114,44 +114,38 @@ public class RetterPrincipal extends Game {
 
 		}
 		if (ranking.isVisivel()) {
+			music.stop();
 			ranking.draw(getGraphics2D());
 			desenharString("Ranking", 300, 300, Color.black, 20);
 
 		}
 		if (selecaoDeNaves.isVisivel()) {
+			music.stop();
 			selecaoDeNaves.draw(getGraphics2D());
 			selecaoDeNaves.drawImage(getGraphics2D());
 			desenharString("Seleção de Naves", 300, 300, Color.black, 20);
 			if (selecaoDeNaves.getEscolhaSuaNave() == 0) {
 				nave = new Nave(3, 700, "images/FLAKSHEET1.png");
 				nave.setEscolha(0);
+				resetGame();
 			} else if (selecaoDeNaves.getEscolhaSuaNave() == 1) {
 				nave = new Nave(3, 1000, "images/FLAKSHEET2.png");
 				nave.setEscolha(1);
+				resetGame();
 			} else if (selecaoDeNaves.getEscolhaSuaNave() == 2) {
 				nave = new Nave(3, 900, "images/FLAKSHEET3.png");
 				nave.setEscolha(2);
+				resetGame();
 			}
 
 		}
 		if (gameOver.isVisivel()) {
 			gameOver.draw(getGraphics2D());
 			desenharString("Gameover", 300, 300, Color.black, 20);
-
+			music.stop();
 		}
 		if (jogo.isVisivel()) {
-			if (nave == null) {
-				if (selecaoDeNaves.getEscolhaSuaNave() == 0) {
-					nave = new Nave(3, 700, "images/FLAKSHEET1.png");
-					nave.sethP(700);
-				} else if (selecaoDeNaves.getEscolhaSuaNave() == 1) {
-					nave = new Nave(3, 1000, "images/FLAKSHEET2.png");
-					nave.sethP(1000);
-				} else if (selecaoDeNaves.getEscolhaSuaNave() == 2) {
-					nave = new Nave(3, 900, "images/FLAKSHEET3.png");
-					nave.sethP(900);
-				}
-			}
+			music.start();
 			desenharJogo();
 			objetosDoJogo();
 		}
@@ -170,18 +164,18 @@ public class RetterPrincipal extends Game {
 		@Override
 		public void mousePressed(MouseEvent e) {
 			if (menu.isVisivel()) {
-				if (menu.getBotoes()[0].click(e.getX(), e.getY())) {
+				if (menu.getBotoes()[1].click(e.getX(), e.getY())) {
 					System.out.println("Start pressionado");
 					menu.setVisivel(false);
 					selecaoDeNaves.setVisivel(true);
 
 				}
 
-				if (menu.getBotoes()[1].click(e.getX(), e.getY())) {
+				if (menu.getBotoes()[2].click(e.getX(), e.getY())) {
 					System.out.println("Sair pressionado");
 					System.exit(0);
 				}
-				if (menu.getBotoes()[2].click(e.getX(), e.getY())) {
+				if (menu.getBotoes()[3].click(e.getX(), e.getY())) {
 					System.out.println("Creditos pressionado");
 					menu.setVisivel(false);
 					creditos.setVisivel(true);
@@ -211,15 +205,6 @@ public class RetterPrincipal extends Game {
 					System.out.println("Iniciar jogo pressionado");
 					cutscenes01.setVisivel(false);
 					jogo.setVisivel(true);
-				}
-			}
-
-			else if (jogo.isVisivel()) {
-				if (jogo.getBotoes()[0].click(e.getX(), e.getY())) {
-					System.out.println("Sair do jogo pressionado");
-					jogo.setVisivel(false);
-					ranking.setVisivel(true);
-
 				}
 			} else if (ranking.isVisivel()) {
 				if (ranking.getBotoes()[1].click(e.getX(), e.getY())) {
@@ -253,8 +238,8 @@ public class RetterPrincipal extends Game {
 					}
 					if (e.getKeyCode() == KeyEvent.VK_J) {
 						try {
-						nave =save.deserializarPlayer(nave);
-						System.out.println("deu certo");
+							nave = save.deserializarPlayer(nave);
+							System.out.println("deu certo");
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
@@ -386,6 +371,14 @@ public class RetterPrincipal extends Game {
 				boss1.update(nave.getTiroCanhao(), nave.getTiroArmaLaser(), nave.getTiros(), nave, getGraphics2D(),
 						nave.getMissil());
 				if (boss1.getHp() <= 0) {
+					nave.setPontuacao(nave.getPontuacao() + 7000);
+					if (nave.getEscolha() == 0) {
+						nave.setPontuacao(nave.getPontuacao() + 10000);
+					} else if (nave.getEscolha() == 1) {
+						nave.setPontuacao(nave.getPontuacao() + 5000);
+					} else if (nave.getEscolha() == 2) {
+						nave.setPontuacao(nave.getPontuacao() + 7500);
+					}
 					boss1 = null;
 				}
 			}
@@ -423,21 +416,43 @@ public class RetterPrincipal extends Game {
 					boss2.megaTiro(getGraphics2D(), nave.getTiroCanhao(), nave.getTiroArmaLaser(), nave.getTiros(),
 							nave, nave.getMissil());
 					if (boss2.getHp() <= 0) {
+						nave.setPontuacao(nave.getPontuacao() + 100000 * nave.getVidas());
+						if (nave.getEscolha() == 0) {
+							nave.setPontuacao(nave.getPontuacao() + 50000);
+						} else if (nave.getEscolha() == 1) {
+							nave.setPontuacao(nave.getPontuacao() + 10000);
+						} else if (nave.getEscolha() == 2) {
+							nave.setPontuacao(nave.getPontuacao() + 20000);
+						}
 						boss2 = null;
 					}
 				} else {
 					boss2.update(nave.getTiroCanhao(), nave.getTiroArmaLaser(), nave.getTiros(), nave, getGraphics2D(),
 							nave.getMissil());
 					if (boss2.getHp() <= 0) {
+						nave.setPontuacao(nave.getPontuacao() + 50000 * nave.getVidas());
+						if (nave.getEscolha() == 0) {
+							nave.setPontuacao(nave.getPontuacao() + 50000);
+						} else if (nave.getEscolha() == 1) {
+							nave.setPontuacao(nave.getPontuacao() + 10000);
+						} else if (nave.getEscolha() == 2) {
+							nave.setPontuacao(nave.getPontuacao() + 20000);
+						}
 						boss2 = null;
+
 					}
 				}
+			}
+			if (boss2 == null) {
+				jogo.setVisivel(false);
+				ranking.setVisivel(true);
 			}
 			desenharImagem(botao, Utils.getInstance().getWidth() / 2, Utils.getInstance().getHeight() / 2 + 200);
 			// DESENHO DA NAVE
 			nave.draw(getGraphics2D());
 			nave.update();
 			getGraphics2D().drawImage(barraTopo, 0, 0, 1024, 60, null);
+			desenharString(""+nave.getPontuacao(), 850, 38, Color.WHITE);
 			lifeBar.draw(getGraphics2D());
 			lifeBar.update(nave);
 			vidas.draw(getGraphics2D());
@@ -450,6 +465,31 @@ public class RetterPrincipal extends Game {
 				ranking.setVisivel(true);
 			}
 		}
+	}
+
+	public void resetGame() {
+		esquadraoUm = null;
+		esquadraoDois = null;
+		esquadraoTres = null;
+		esquadraoQuatro = null;
+		esquadraoCinco = null;
+		esquadraoSeis = null;
+		boss1 = null;
+		boss2 = null;
+		esquadraoUm = new SquadOne(300);
+		esquadraoUm.squadOne();
+		esquadraoDois = new SquadTwo(500);
+		esquadraoTres = new SquadThree(500);
+		esquadraoQuatro = new SquadFour(1000);
+		esquadraoCinco = new SquadFive(1000);
+		esquadraoSeis = new SquadSix(1000);
+		esquadraoSeis.Squad6();
+		esquadraoCinco.Squad5();
+		esquadraoQuatro.Squad4();
+		esquadraoDois.squadTwo();
+		esquadraoTres.SquadTree();
+		boss1 = new BossTerrestre();
+		boss2 = new BossFinal();
 	}
 
 }

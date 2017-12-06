@@ -2,8 +2,8 @@ package game;
 
 public class TiroArmaLaser extends SuperTiro {
 
-	public TiroArmaLaser(int municao) {
-		super(-6, -6, 800, 4, "images/TiroArmaLaser.png", 0, 0, 50, municao);
+	public TiroArmaLaser() {
+		super(-6, -6, 800, 4, "images/TiroArmaLaser.png", 0, 0, 50, 50);
 	}
 
 	public void update(Nave nave) {
