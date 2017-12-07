@@ -6,6 +6,8 @@ import java.util.Random;
 
 import javax.naming.directory.InvalidAttributeIdentifierException;
 
+import br.senai.sc.engine.Utils;
+
 public abstract class SuperSquad extends InimigoComum {
 	private int posX;
 	private int posY;
@@ -14,6 +16,8 @@ public abstract class SuperSquad extends InimigoComum {
 	private int hp;
 	private int control;
 	private InimigoComum[] verbot;
+	private int contador;
+	private Explosao[] explosion;
 
 	public SuperSquad(int posX, int posY, boolean controle, int hp, int control, String fileName) {
 		super(0, 0, 0, fileName, 0, 0);
@@ -21,14 +25,19 @@ public abstract class SuperSquad extends InimigoComum {
 		this.posY = posY;
 		this.hp = hp;
 		this.control = control;
+		explosion = new Explosao[6];
 	}
 
 	public void update(int velX, int dano, Nave nave) {
 		if (verbot != null) {
 			for (int i = 0; i < verbot.length; i++) {
 				if (verbot[i] != null) {
-
+						if (explosion[i] == null) {
+							explosion[i] = new Explosao(verbot[i].getPosX(), verbot[i].getPosY());
+						}
 					verbot[i].update(velX, dano);
+					explosion[i].setPosX(verbot[i].getPosX());
+					explosion[i].setPosY(verbot[i].getPosY());
 					if (verbot[i].getTiro() != null) {
 						verbot[i].getTiro().update();
 						if (verbot[i].getTiro().getPosX() <= 0) {
@@ -42,6 +51,7 @@ public abstract class SuperSquad extends InimigoComum {
 				}
 			}
 		}
+
 	}
 
 	public void draw(Graphics2D g, int x, int z) {
@@ -53,13 +63,24 @@ public abstract class SuperSquad extends InimigoComum {
 						verbot[i].getTiro().draw(g);
 					}
 				}
+				if (verbot[i] == null) {
+					for (int j = 0; j < 35; j++) {
+						if (explosion[i] != null) {
+							explosion[i].draw(g);
+							explosion[i].setFrameX(explosion[i].getFrameX() + 1);
+							if (explosion[i].frameX >= 35) {
+								explosion[i] = null;
+							}
+						}
+					}
+
+				}
 			}
 		}
 	}
 
-
 	public void destruicaoSquad(SuperTiro[] tiro, Nave nave, TiroArmaLaser armaLaser, TiroCanhao[] canhao, int sorte,
-			TiroArmaMissil[] missil) {
+			TiroArmaMissil[] missil, Graphics2D g) {
 		if (verbot != null) {
 			for (int i = 0; i < verbot.length; i++) {
 				if (verbot[i] != null) {
@@ -67,7 +88,7 @@ public abstract class SuperSquad extends InimigoComum {
 					if (armaLaser != null) {
 						if (verbot[i] != null && verbot[i].rectangleArmaLaser(armaLaser)) {
 							if (verbot[i].getHp() <= 0) {
-								nave.setPontuacao(nave.getPontuacao()+500);
+								nave.setPontuacao(nave.getPontuacao() + 500);
 								if (isDropouArma(sorte)) {
 									nave.setArmaso(sorteandoArma(verbot[i]));
 								}
@@ -82,7 +103,7 @@ public abstract class SuperSquad extends InimigoComum {
 					if (tiro != null) {
 						if (verbot[i] != null && verbot[i].rectangleTiro(tiro)) {
 							if (verbot[i].getHp() <= 0) {
-								nave.setPontuacao(nave.getPontuacao()+3000);
+								nave.setPontuacao(nave.getPontuacao() + 3000);
 								if (isDropouArma(sorte)) {
 									nave.setArmaso(sorteandoArma(verbot[i]));
 								}
@@ -97,7 +118,7 @@ public abstract class SuperSquad extends InimigoComum {
 					if (canhao != null) {
 						if (verbot[i] != null && verbot[i].rectangleTiro(canhao)) {
 							if (verbot[i].getHp() <= 0) {
-								nave.setPontuacao(nave.getPontuacao()+1000);
+								nave.setPontuacao(nave.getPontuacao() + 1000);
 								if (isDropouArma(sorte)) {
 									nave.setArmaso(sorteandoArma(verbot[i]));
 								}
@@ -113,7 +134,7 @@ public abstract class SuperSquad extends InimigoComum {
 						// TODO
 						if (verbot[i] != null && verbot[i].rectangleTiro(missil)) {
 							if (verbot[i].getHp() <= 0) {
-								nave.setPontuacao(nave.getPontuacao()+750);
+								nave.setPontuacao(nave.getPontuacao() + 750);
 								if (isDropouArma(sorte)) {
 									nave.setArmaso(sorteandoArma(verbot[i]));
 								}

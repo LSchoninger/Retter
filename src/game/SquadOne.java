@@ -14,6 +14,10 @@ public class SquadOne extends SuperSquad {
 		setHp(hp);
 		setControl(4);
 	}
+	
+
+
+
 
 	public void squadOne() {
 		for (int i = 0; i < verbot.length; i++) {

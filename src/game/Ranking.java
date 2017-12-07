@@ -7,7 +7,7 @@ import br.senai.sc.engine.Utils;
 public class Ranking extends TelaEstatica {
 
 	public Ranking() {
-		super(Color.GREEN, false);
+		super("images/fundoRanking2.png", false);
 		setBotoes(new Botao[2]);
 		getBotoes()[0] = new Botao(50,
 				(Utils.getInstance().getHeight() / 2 - 86) + (Utils.getInstance().getHeight() / 3), 216, 72,

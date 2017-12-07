@@ -11,15 +11,15 @@ public class SelecaoNave extends TelaEstatica {
 	private Image[] naves;
 
 	public SelecaoNave() {
-		super(Color.gray, false);
+		super("images/fundoSelecao.png", false);
 		escolhaSuaNave = 0;
 		setBotoes(new Botao[3]);
 		getBotoes()[0] = new Botao(50,
 				(Utils.getInstance().getHeight() / 2 - 86) + (Utils.getInstance().getHeight() / 6), 180, 170,
-				"images/SETAESQUERDA.png");
+				"images/SETAESQUERDAZUL.png");
 		getBotoes()[1] = new Botao(Utils.getInstance().getWidth() - 200,
 				(Utils.getInstance().getHeight() / 2 - 86) + (Utils.getInstance().getHeight() / 6), 180, 170,
-				"images/SETADIEREITA.png");
+				"images/SETADIEREITAZUL.png");
 		getBotoes()[2] = new Botao(Utils.getInstance().getWidth() - 350, Utils.getInstance().getHeight() - 100, 293,
 				107, "images/INICIAR.png");
 		naves = new Image[3];
@@ -56,9 +56,8 @@ public class SelecaoNave extends TelaEstatica {
 	@Override
 	public void drawImage(Graphics2D g) {
 		// TODO COLOCAR IMAGEM DE TROCA-TROCA DE NAVE
-		super.drawImage(g);
+		super.drawImageOnly(g);
 		drawTeste(g);
-
 	}
 
 }

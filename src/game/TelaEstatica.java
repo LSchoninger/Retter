@@ -11,19 +11,34 @@ public class TelaEstatica {
 	private Color corDeFundo;
 	private boolean visivel;
 	private Botao[] botoes;
-	private Image imagemDeFundo;
-
-	//Construtor usando apenas a cor como fundo
+	private Image[] imagemDeFundo;
+	private int posX;
+	private int posY;
+	private int posY2;
 	public TelaEstatica(Color corDeFundo, boolean visivel) {
 		super();
 		this.corDeFundo = corDeFundo;
 		this.visivel = visivel;
 	}
-	//Construtor usando imagem como fundo
+
 	public TelaEstatica(String imagem, boolean visivel) {
 		super();
-		this.imagemDeFundo = Utils.getInstance().loadImage(imagem);
+		this.imagemDeFundo = new Image[2];
+		this.imagemDeFundo[0] = Utils.getInstance().loadImage(imagem);
+		this.imagemDeFundo[1] = Utils.getInstance().loadImage(imagem);
 		this.visivel = visivel;
+		posY2 -= Utils.getInstance().getHeight();
+	}
+
+	public void update() {
+		posY += 5;
+		posY2 += 5;
+		if (posY >= Utils.getInstance().getHeight()) {
+			posY = 0 - Utils.getInstance().getHeight();
+		}
+		if (posY2 >= Utils.getInstance().getHeight()) {
+			posY2 = 0 - Utils.getInstance().getHeight();
+		}
 	}
 
 	public Color getCorDeFundo() {
@@ -50,8 +65,8 @@ public class TelaEstatica {
 		this.botoes = botoes;
 	}
 
-	//Método para desenhar com cor apenas
-	
+	// Método para desenhar com cor apenas
+
 	public void draw(Graphics2D g) {
 		g.setColor(corDeFundo);
 		g.fillRect(0, 0, Utils.getInstance().getWidth(), Utils.getInstance().getHeight());
@@ -63,10 +78,22 @@ public class TelaEstatica {
 			}
 		}
 	}
-	//Método para desenhar IBAGEM, EU QUERO IBAGENS
-	
-	public void drawImage(Graphics2D g){
-		g.drawImage(imagemDeFundo, 0, 0, Utils.getInstance().getWidth(), Utils.getInstance().getHeight(), null);
+	// Método para desenhar IBAGEM, EU QUERO IBAGENS
+
+	public void drawImage(Graphics2D g) {
+		g.drawImage(imagemDeFundo[0], posX, posY, Utils.getInstance().getWidth(), Utils.getInstance().getHeight()+15,
+				null);
+		g.drawImage(imagemDeFundo[1], posX, posY2, Utils.getInstance().getWidth(), Utils.getInstance().getHeight()+15,
+				null);
+		if (botoes != null) {
+			for (Botao b : botoes) {
+				b.draw(g);
+			}
+		}
+	}
+	public void drawImageOnly(Graphics2D g){
+		g.drawImage(imagemDeFundo[0], posX, posY, Utils.getInstance().getWidth(), Utils.getInstance().getHeight(),
+				null);
 		if (botoes != null) {
 			for (Botao b : botoes) {
 				b.draw(g);

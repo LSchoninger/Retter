@@ -40,9 +40,6 @@ public class Nave extends ObjetoGraficoMovelComAnimacao implements Serializable 
 	private int escolha;
 
 	public Nave(int vidas, int hP, String fileName) {
-		// int posX, int posY, int width, int height, String fileName, int velX,
-		// int velY,
-		// int frameX, int frameY, int cols, int rows
 		super(50, 500, 120, 39, fileName, 17, 17, 0, 0, 6, 3);
 		this.vidas = vidas;
 		this.hP = hP;

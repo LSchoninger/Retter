@@ -6,12 +6,12 @@ import br.senai.sc.engine.Utils;
 
 public class Cutscene extends TelaEstatica {
 
-	public Cutscene(Color corDeFundo) {
-		super(corDeFundo, false);
+	public Cutscene(String fileName) {
+		super(fileName, false);
 		setBotoes(new Botao[1]);
-		getBotoes()[0] = new Botao(Utils.getInstance().getWidth()-200,
-				(Utils.getInstance().getHeight() / 2 - 86) + (Utils.getInstance().getHeight() / 3), 173, 171,
-				"images/SETADIEREITA.png");
+		getBotoes()[0] = new Botao(Utils.getInstance().getWidth()-60,
+				Utils.getInstance().getHeight()-60,60,57,
+				"images/SETADIEREITAmenor.png");
 
 	}
 

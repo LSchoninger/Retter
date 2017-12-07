@@ -30,7 +30,6 @@ public abstract class SuperInimigo extends ObjetoGraficoMovelComAnimacao {
 			nave.getRectangle();
 			if (getRectangle().intersects(nave.getRectangle())) {
 				// vida por enquanto so destroi instan quase;
-				setHp(getHp() - getHp() / 2);
 				nave.sethP(getHp() - 350);
 			}
 		}

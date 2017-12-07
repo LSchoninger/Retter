@@ -11,19 +11,13 @@ import javax.imageio.ImageIO;
 
 import br.senai.sc.engine.Utils;
 
-public class Teste {
+public class Save {
 
-	/**
-	 * 
-	 */
 
 	public void serializarPlayer(Nave nave) throws Exception {
 		FileOutputStream fos = new FileOutputStream("Nave.ser");
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(nave);
-		System.out.println(nave.getPosX());
-		System.out.println(nave.getPosY());
-		System.out.println(nave.sprite);
 		oos.close();
 	}
 
@@ -31,9 +25,6 @@ public class Teste {
 		FileInputStream fis = new FileInputStream("Nave.ser");
 		ObjectInputStream ois = new ObjectInputStream(fis);
 		nave = (Nave) ois.readObject();
-		System.out.println(nave.getPosX());
-		System.out.println(nave.getPosY());
-		System.out.println(nave.sprite);
 		if (nave.getEscolha() == 0) {
 			nave.setSprite(Utils.getInstance().loadImage("images/FLAKSHEET1.png"));
 		} else if (nave.getEscolha() == 1) {
@@ -41,7 +32,6 @@ public class Teste {
 		} else if (nave.getEscolha() == 2) {
 			nave.setSprite(Utils.getInstance().loadImage("images/FLAKSHEET3.png"));
 		}
-		System.out.println(nave.sprite);
 		ois.close();
 		return nave;
 
