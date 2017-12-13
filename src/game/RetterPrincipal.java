@@ -84,7 +84,7 @@ public class RetterPrincipal extends Game {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		music = new PlaySound("Music/Flying Foe.wav");
+		music = new PlaySound("bin/Music/Flying Foe.wav");
 		creditos = new Creditos();
 		cutscenes = new Cutscene[4];
 		cutscenes[0] = new Cutscene("images/Cutscene1.png");
@@ -177,8 +177,8 @@ public class RetterPrincipal extends Game {
 		if (pause.isVisivel()) {
 			pause.draw(getGraphics2D());
 			getGraphics2D().drawImage(Utils.getInstance().loadImage("images/PauseLogo.png"),
-					Utils.getInstance().getWidth() / 2 - 479/2, Utils.getInstance().getHeight() / 2 - 122/2, 479, 122,
-					null);
+					Utils.getInstance().getWidth() / 2 - 479 / 2, Utils.getInstance().getHeight() / 2 - 122 / 2, 479,
+					122, null);
 		}
 
 	}

@@ -15,7 +15,7 @@ public class InimigoComum extends SuperInimigo {
 	private int porcentagemHp;
 
 	public InimigoComum(int hP, int posX, int posY, String fileName, int cols, int frequenciaDeTiros) {
-		super(posX, posY, 120, 33, fileName, 15, 9, 0, 0, 7, 3, hP);
+		super(posX, posY, 120, 33, fileName, 15, 9, 0, 0, 7, 3, hP,"images/EnemyLifebar.png");
 		Random rdm = new Random();
 		setVelY(2);
 		setCols(cols);

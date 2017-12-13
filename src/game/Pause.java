@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
@@ -10,6 +11,7 @@ public class Pause extends TelaEstatica {
 		super(Color.BLACK, false);
 
 	}
+
 
 	public boolean isPausado() {
 		return pausado;

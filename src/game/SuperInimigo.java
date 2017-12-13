@@ -20,10 +20,10 @@ public abstract class SuperInimigo extends ObjetoGraficoMovelComAnimacao {
 	}
 
 	public SuperInimigo(int posX, int posY, int width, int height, String fileName, int velX, int velY, int frameX,
-			int frameY, int cols, int rows, int hp) {
+			int frameY, int cols, int rows, int hp,String bar) {
 		super(posX, posY, width, height, fileName, velX, velY, frameX, frameY, cols, rows);
 		this.hp = hp;
-		setBar(new EnemyLifebar(getPosX(), getPosY()));
+		setBar(new EnemyLifebar(getPosX(), getPosY(),bar));
 	}
 
 	// TODO COLISÃO NAVE, TIRO NAVE

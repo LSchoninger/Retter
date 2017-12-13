@@ -12,11 +12,12 @@ public class BossFinal extends SuperInimigo {
 	private TiroBossComum tiro;
 
 	public BossFinal() {
-		super(1024, 300, 384, 113, "images/Boss2V2.png", 7, 6, 0, 0, 2, 8, 12000);
+		super(1024, 300, 384, 113, "images/Boss2V2.png", 7, 6, 0, 0, 2, 8, 10000, "images/BossFinalLifebar.png");
 		superTiro = new BossTiroMega[2];
 	}
 
-	public void update(TiroCanhao[] tiroCanhao, TiroArmaLaser tiroLaser, SuperTiro[] tiros, Nave nave, Graphics2D g,TiroArmaMissil[] missil) {
+	public void update(TiroCanhao[] tiroCanhao, TiroArmaLaser tiroLaser, SuperTiro[] tiros, Nave nave, Graphics2D g,
+			TiroArmaMissil[] missil) {
 		if (getPosX() + getWidth() >= Utils.getInstance().getWidth()) {
 			setPosX(getPosX() - getVelX());
 		}
@@ -42,7 +43,7 @@ public class BossFinal extends SuperInimigo {
 		if (tiros != null) {
 			rectangleTiro(tiros);
 		}
-		if(missil!=null){
+		if (missil != null) {
 			rectangleTiro(missil);
 		}
 		rectangleNave(nave);
@@ -60,7 +61,8 @@ public class BossFinal extends SuperInimigo {
 		}
 	}
 
-	public void megaTiro(Graphics2D g, TiroCanhao[] tiroCanhao, TiroArmaLaser tiroLaser, SuperTiro[] tiros, Nave nave,TiroArmaMissil[] missil) {
+	public void megaTiro(Graphics2D g, TiroCanhao[] tiroCanhao, TiroArmaLaser tiroLaser, SuperTiro[] tiros, Nave nave,
+			TiroArmaMissil[] missil) {
 		tiro = null;
 		for (int i = 0; i < superTiro.length; i++) {
 			setFrameY(1);
@@ -81,7 +83,7 @@ public class BossFinal extends SuperInimigo {
 			if (tiros != null) {
 				rectangleTiro(tiros);
 			}
-			if(missil!=null){
+			if (missil != null) {
 				rectangleTiro(missil);
 			}
 			rectangleNave(nave);
@@ -101,6 +103,36 @@ public class BossFinal extends SuperInimigo {
 
 	public int getDano() {
 		return dano;
+	}
+
+	@Override
+	public void draw(Graphics2D g) {
+		getBar().draw(g);
+		getBar().update();
+		getBar().setHeight(25);
+		getBar().setWidth(700);
+		getBar().setPosX(368 / 2);
+		getBar().setPosY(740);
+		if (this.getHp() <= 9000 && this.getHp() > 8000) {
+			getBar().setFrameX(0);
+		} else if (this.getHp() <= 8000 && getHp() > 7000) {
+			getBar().setFrameX(1);
+		} else if (getHp() <= 7000 && getHp() > 6000) {
+			getBar().setFrameX(2);
+		} else if (getHp() <= 6000 && getHp() > 5000) {
+			getBar().setFrameX(3);
+		} else if (getHp() <= 5000 && getHp() > 4000) {
+			getBar().setFrameX(4);
+		} else if (getHp() <= 4000 && getHp() > 3000) {
+			getBar().setFrameX(5);
+		} else if (getHp() <= 3000 && getHp() > 2000) {
+			getBar().setFrameX(6);
+		} else if (getHp() <= 2000 && getHp() > 1000) {
+			getBar().setFrameX(7);
+		} else if (getHp() <= 1000) {
+			getBar().setFrameX(8);
+		}
+		super.draw(g);
 	}
 
 	public void setDano(int dano) {
