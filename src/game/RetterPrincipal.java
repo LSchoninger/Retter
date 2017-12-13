@@ -23,7 +23,7 @@ public class RetterPrincipal extends Game {
 	private BackGround backGround[];
 	private Pause pause;
 	private Image botao;
-	private TelaEstatica ranking;
+	private Ranking ranking;
 	private TelaEstatica jogo;
 	private Nave nave;
 	private BossTerrestre boss1;
@@ -33,6 +33,7 @@ public class RetterPrincipal extends Game {
 	private SquadThree esquadraoTres;
 	private SquadFour esquadraoQuatro;
 	private SquadFive esquadraoCinco;
+	private long pontuacao;
 	private SquadSix esquadraoSeis;
 	private MiddleGround[] groundDoMeio;
 	private Image barraTopo;
@@ -70,14 +71,26 @@ public class RetterPrincipal extends Game {
 		vidas = new BarraDeVidas();
 		menu = new Menu();
 		save = new Save();
-		music = new PlaySound("src/game/Flying Foe.wav");
+		ranking = new Ranking(save);
+		// try {
+		// save.serializarPlayer(ranking);
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+		try {
+			ranking = save.deserializarPlayer(ranking);
+			// ranking.setImagemDeFundo(Utils.getInstance().loadImage("images/fundoRanking2.png"),0);
+			System.out.println(ranking.getList().toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		music = new PlaySound("Music/Flying Foe.wav");
 		creditos = new Creditos();
 		cutscenes = new Cutscene[4];
 		cutscenes[0] = new Cutscene("images/Cutscene1.png");
 		cutscenes[1] = new Cutscene("images/Cutscene2.png");
 		cutscenes[2] = new Cutscene("images/Tutorial.png");
 		cutscenes[3] = new Cutscene("images/Cutscene3.png");
-		ranking = new Ranking();
 		selecaoDeNaves = new SelecaoNave();
 		jogo = new Jogo();
 		esquadraoUm = new SquadOne(300);
@@ -104,8 +117,7 @@ public class RetterPrincipal extends Game {
 		}
 
 		if (creditos.isVisivel()) {
-			creditos.draw(getGraphics2D());
-			desenharString("Creditos", 300, 300, Color.black, 20);
+			creditos.drawImageOnly(getGraphics2D());
 
 		}
 		if (cutscenes[0].isVisivel()) {
@@ -124,10 +136,15 @@ public class RetterPrincipal extends Game {
 			cutscenes[3].drawImageOnly(getGraphics2D());
 
 		}
-		if (ranking.isVisivel()) {
+		if (ranking != null && ranking.isVisivel()) {
 			music.stop();
 			ranking.drawImageOnly(getGraphics2D());
-
+			try {
+				ranking.RankingOrganize(save, pontuacao);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			ranking.drawRanking(getGraphics2D());
 		}
 		if (selecaoDeNaves.isVisivel()) {
 			music.stop();
@@ -159,6 +176,9 @@ public class RetterPrincipal extends Game {
 		}
 		if (pause.isVisivel()) {
 			pause.draw(getGraphics2D());
+			getGraphics2D().drawImage(Utils.getInstance().loadImage("images/PauseLogo.png"),
+					Utils.getInstance().getWidth() / 2 - 479/2, Utils.getInstance().getHeight() / 2 - 122/2, 479, 122,
+					null);
 		}
 
 	}
@@ -214,21 +234,19 @@ public class RetterPrincipal extends Game {
 				if (cutscenes[1].getBotoes()[0].click(e.getX(), e.getY())) {
 					cutscenes[1].setVisivel(false);
 					cutscenes[2].setVisivel(true);
-			
+
 				}
-			} else if(cutscenes[2].isVisivel()){
+			} else if (cutscenes[2].isVisivel()) {
 				if (cutscenes[2].getBotoes()[0].click(e.getX(), e.getY())) {
 					cutscenes[2].setVisivel(false);
 					jogo.setVisivel(true);
 				}
-			}
-			else if(cutscenes[3].isVisivel()){
+			} else if (cutscenes[3].isVisivel()) {
 				if (cutscenes[3].getBotoes()[0].click(e.getX(), e.getY())) {
 					cutscenes[3].setVisivel(false);
 					ranking.setVisivel(true);
 				}
-			}
-			else if (ranking.isVisivel()) {
+			} else if (ranking.isVisivel()) {
 				if (ranking.getBotoes()[1].click(e.getX(), e.getY())) {
 					ranking.setVisivel(false);
 					menu.setVisivel(true);
@@ -248,22 +266,6 @@ public class RetterPrincipal extends Game {
 		public void keyPressed(KeyEvent e) {
 			if (nave != null) {
 				if (jogo.isVisivel()) {
-					if (e.getKeyCode() == KeyEvent.VK_Y) {
-						try {
-							save.serializarPlayer(nave);
-							System.out.println("SALVADO COM SUCESSO BIRL");
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}
-					}
-					if (e.getKeyCode() == KeyEvent.VK_J) {
-						try {
-							nave = save.deserializarPlayer(nave);
-							System.out.println("deu certo");
-						} catch (Exception e1) {
-							e1.printStackTrace();
-						}
-					}
 					if (e.getKeyCode() == KeyEvent.VK_P) {
 						if (pause.isVisivel() == false) {
 							jogo.setVisivel(false);
@@ -458,6 +460,16 @@ public class RetterPrincipal extends Game {
 			}
 			if (boss2 == null) {
 				jogo.setVisivel(false);
+				// ranking.setContador(0);
+				pontuacao = nave.getPontuacao();
+				// ranking.setControle(50);
+				ranking = new Ranking(save);
+				try {
+					ranking = save.deserializarPlayer(ranking);
+				} catch (Exception e) {
+
+					e.printStackTrace();
+				}
 				cutscenes[3].setVisivel(true);
 			}
 			desenharImagem(botao, Utils.getInstance().getWidth() / 2, Utils.getInstance().getHeight() / 2 + 200);
@@ -473,9 +485,18 @@ public class RetterPrincipal extends Game {
 			nave.RectangleChao(ground[0]);
 			nave.RectangleChao(ground[1]);
 			if (nave.isDestruido() == true) {
+				ranking = new Ranking(save);
+				try {
+					ranking = save.deserializarPlayer(ranking);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				pontuacao = nave.getPontuacao();
 				nave = null;
 				jogo.setVisivel(false);
-			ranking.setVisivel(true);	
+				// ranking.setControle(50);
+				// ranking.setContador(0);
+				ranking.setVisivel(true);
 			}
 		}
 	}

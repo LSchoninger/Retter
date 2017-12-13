@@ -13,28 +13,21 @@ import br.senai.sc.engine.Utils;
 
 public class Save {
 
-
-	public void serializarPlayer(Nave nave) throws Exception {
-		FileOutputStream fos = new FileOutputStream("Nave.ser");
+	public void serializarPlayer(Object o) throws Exception {
+		FileOutputStream fos = new FileOutputStream("Ranking.ser");
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
-		oos.writeObject(nave);
+		oos.writeObject(o);
 		oos.close();
 	}
 
-	public Nave deserializarPlayer(Nave nave) throws Exception {
-		FileInputStream fis = new FileInputStream("Nave.ser");
+	public Ranking deserializarPlayer(Ranking ranking) throws Exception {
+		FileInputStream fis = new FileInputStream("Ranking.ser");
 		ObjectInputStream ois = new ObjectInputStream(fis);
-		nave = (Nave) ois.readObject();
-		if (nave.getEscolha() == 0) {
-			nave.setSprite(Utils.getInstance().loadImage("images/FLAKSHEET1.png"));
-		} else if (nave.getEscolha() == 1) {
-			nave.setSprite(Utils.getInstance().loadImage("images/FLAKSHEET2.png"));
-		} else if (nave.getEscolha() == 2) {
-			nave.setSprite(Utils.getInstance().loadImage("images/FLAKSHEET3.png"));
-		}
+		Ranking r = new Ranking();
+		r = (Ranking) ois.readObject();
+		ranking.setList(r.getList());
 		ois.close();
-		return nave;
-
+		return ranking;
 	}
 
 }

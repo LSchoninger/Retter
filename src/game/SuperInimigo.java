@@ -8,6 +8,8 @@ public abstract class SuperInimigo extends ObjetoGraficoMovelComAnimacao {
 	// herdar
 
 	private int hp;
+	private boolean lifebar;
+	private EnemyLifebar bar;
 
 	public int getHp() {
 		return hp;
@@ -21,6 +23,7 @@ public abstract class SuperInimigo extends ObjetoGraficoMovelComAnimacao {
 			int frameY, int cols, int rows, int hp) {
 		super(posX, posY, width, height, fileName, velX, velY, frameX, frameY, cols, rows);
 		this.hp = hp;
+		setBar(new EnemyLifebar(getPosX(), getPosY()));
 	}
 
 	// TODO COLISÃO NAVE, TIRO NAVE
@@ -30,7 +33,7 @@ public abstract class SuperInimigo extends ObjetoGraficoMovelComAnimacao {
 			nave.getRectangle();
 			if (getRectangle().intersects(nave.getRectangle())) {
 				// vida por enquanto so destroi instan quase;
-				nave.sethP(getHp() - 350);
+				nave.sethP(nave.gethP() - nave.gethP());
 			}
 		}
 	}
@@ -66,6 +69,14 @@ public abstract class SuperInimigo extends ObjetoGraficoMovelComAnimacao {
 			return true;
 		}
 		return false;
+	}
+
+	public EnemyLifebar getBar() {
+		return bar;
+	}
+
+	public void setBar(EnemyLifebar bar) {
+		this.bar = bar;
 	}
 
 }

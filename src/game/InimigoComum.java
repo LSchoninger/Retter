@@ -12,6 +12,7 @@ public class InimigoComum extends SuperInimigo {
 	private TiroInimigo tiro;
 	private int frequenciaDeTiros;
 	private int selectorVelY;
+	private int porcentagemHp;
 
 	public InimigoComum(int hP, int posX, int posY, String fileName, int cols, int frequenciaDeTiros) {
 		super(posX, posY, 120, 33, fileName, 15, 9, 0, 0, 7, 3, hP);
@@ -19,10 +20,23 @@ public class InimigoComum extends SuperInimigo {
 		setVelY(2);
 		setCols(cols);
 		setFrequenciaDeTiros(frequenciaDeTiros);
-		selectorVelY=rdm.nextInt(2);
+		selectorVelY = rdm.nextInt(2);
+		porcentagemHp= getHp()/100;//1%
 	}
 
 	public void update(int velX, int dano) {
+		if(getHp()<=porcentagemHp*80&&getHp()>porcentagemHp*60){
+			getBar().setFrameX(1);
+		}else if(getHp()<=porcentagemHp*60&&getHp()>porcentagemHp*40){
+			getBar().setFrameX(2);;
+		}else if(getHp()<=porcentagemHp*40&&getHp()>porcentagemHp*20){
+			getBar().setFrameX(3);
+		}else if(getHp()<=porcentagemHp*20){
+			getBar().setFrameX(4);
+		}
+		getBar().setPosX(this.getPosX() + 5);
+		getBar().setPosY(this.getPosY() - 20);
+		getBar().update();
 		setFrameY(0);
 		setFrameX(getFrameX() + 1);
 		if (getFrameX() >= getCols()) {
@@ -34,18 +48,18 @@ public class InimigoComum extends SuperInimigo {
 			destruido = false;
 		}
 		if (posicaoTela == 0) {
-			
-			if(selectorVelY ==1){
-			setPosY(getPosY() + getVelY());}
-			else {
+
+			if (selectorVelY == 1) {
+				setPosY(getPosY() + getVelY());
+			} else {
 				setPosY(getPosY() - getVelY());
 			}
 			if (getPosY() <= 60) {
 				setPosY(60);
 				setVelY(getVelY() * -1);
 			}
-			if (getPosY() + getHeight()+30 >= Utils.getInstance().getHeight()) {
-				setPosY(Utils.getInstance().getHeight() - getHeight()-30);
+			if (getPosY() + getHeight() + 30 >= Utils.getInstance().getHeight()) {
+				setPosY(Utils.getInstance().getHeight() - getHeight() - 30);
 				setVelY(getVelY() * -1);
 			}
 		}
@@ -83,6 +97,12 @@ public class InimigoComum extends SuperInimigo {
 		if (tiro == null && atirar(frequenciaDeTiros)) {
 			tiro = new TiroInimigo(getPosX(), getPosY() + 10, velX, dano);
 		}
+	}
+
+	@Override
+	public void draw(Graphics2D g) {
+		getBar().draw(g);
+		super.draw(g);
 	}
 
 	public boolean RectangleAnother(InimigoComum enemy) {
@@ -124,6 +144,14 @@ public class InimigoComum extends SuperInimigo {
 
 	public void setFrequenciaDeTiros(int frequenciaDeTiros) {
 		this.frequenciaDeTiros = frequenciaDeTiros;
+	}
+
+	public int getPorcentagemHp() {
+		return porcentagemHp;
+	}
+
+	public void setPorcentagemHp(int porcentagemHp) {
+		this.porcentagemHp = porcentagemHp;
 	}
 
 }

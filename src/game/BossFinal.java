@@ -135,7 +135,7 @@ public class BossFinal extends SuperInimigo {
 			superTiro[1].getRectangle();
 			nave.getRectangle();
 			if (superTiro[1].getRectangle().intersects(nave.getRectangle())) {
-				nave.sethP(nave.gethP() - superTiro[1].getDano());
+				nave.sethP(nave.gethP() - nave.gethP());
 				return true;
 			}
 		}

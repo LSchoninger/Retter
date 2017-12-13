@@ -18,6 +18,7 @@ public class BossTerrestre extends SuperInimigo {
 
 	public void update(TiroCanhao[] tiroCanhao, TiroArmaLaser tiroLaser, SuperTiro[] tiros, Nave nave, Graphics2D g,TiroArmaMissil[] missil) {
 		Random rdm = new Random();
+		rectangleNave(nave);
 		if (getPosX() >= 0 && frente == false) {
 			setPosX(getPosX() - getVelX());
 			if (getPosX() <= 0) {

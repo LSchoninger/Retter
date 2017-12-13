@@ -26,19 +26,29 @@ public class PlaySound {
 		// File(soundName).getAbsoluteFile());
 		// Clip clip = AudioSystem.getClip();
 		// clip.open(audioInputStream);
-		if (!clip.isRunning()) {
-			clip.stop();
-			clip.start();
-			if (clip.getMicrosecondLength() <= clip.getMicrosecondPosition()) {
-				clip.setMicrosecondPosition(0);
+		try {
+			if (!clip.isRunning()) {
+				clip.stop();
+				clip.start();
+				if (clip.getMicrosecondLength() <= clip.getMicrosecondPosition()) {
+					clip.setMicrosecondPosition(0);
+				}
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
 	}
 
 	public void stop() {
-		if (clip.isRunning()) {
-			clip.stop();
-			clip.setMicrosecondPosition(0);
+		try {
+			if (clip.isRunning()) {
+				clip.stop();
+				clip.setMicrosecondPosition(0);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+
 	}
 }

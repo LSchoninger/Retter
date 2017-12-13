@@ -15,6 +15,10 @@ public class TelaEstatica {
 	private int posX;
 	private int posY;
 	private int posY2;
+
+	public TelaEstatica() {
+	}
+
 	public TelaEstatica(Color corDeFundo, boolean visivel) {
 		super();
 		this.corDeFundo = corDeFundo;
@@ -70,7 +74,6 @@ public class TelaEstatica {
 	public void draw(Graphics2D g) {
 		g.setColor(corDeFundo);
 		g.fillRect(0, 0, Utils.getInstance().getWidth(), Utils.getInstance().getHeight());
-
 		if (botoes != null) {
 			// FOR EACH, já sai com o objeto em cada posição
 			for (Botao b : botoes) {
@@ -81,9 +84,9 @@ public class TelaEstatica {
 	// Método para desenhar IBAGEM, EU QUERO IBAGENS
 
 	public void drawImage(Graphics2D g) {
-		g.drawImage(imagemDeFundo[0], posX, posY, Utils.getInstance().getWidth(), Utils.getInstance().getHeight()+15,
+		g.drawImage(imagemDeFundo[0], posX, posY, Utils.getInstance().getWidth(), Utils.getInstance().getHeight() + 15,
 				null);
-		g.drawImage(imagemDeFundo[1], posX, posY2, Utils.getInstance().getWidth(), Utils.getInstance().getHeight()+15,
+		g.drawImage(imagemDeFundo[1], posX, posY2, Utils.getInstance().getWidth(), Utils.getInstance().getHeight() + 15,
 				null);
 		if (botoes != null) {
 			for (Botao b : botoes) {
@@ -91,7 +94,8 @@ public class TelaEstatica {
 			}
 		}
 	}
-	public void drawImageOnly(Graphics2D g){
+
+	public void drawImageOnly(Graphics2D g) {
 		g.drawImage(imagemDeFundo[0], posX, posY, Utils.getInstance().getWidth(), Utils.getInstance().getHeight(),
 				null);
 		if (botoes != null) {
@@ -99,5 +103,14 @@ public class TelaEstatica {
 				b.draw(g);
 			}
 		}
+	}
+
+	public Image[] getImagemDeFundo() {
+		return imagemDeFundo;
+	}
+
+	public void setImagemDeFundo(Image imagemDeFundo, int index) {
+		this.imagemDeFundo = new Image[2];
+		this.imagemDeFundo[0] = imagemDeFundo;
 	}
 }
